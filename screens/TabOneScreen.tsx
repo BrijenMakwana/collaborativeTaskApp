@@ -1,15 +1,57 @@
-import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, TextInput} from 'react-native';
+import TaskListItem from '../components/TaskListItem';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function TabOneScreen() {
+
+  const [title, setTitle] = useState("");
+  const [taskListItem, setTaskListItem] = useState([{
+    id: "1",
+    content: "Prepare a report",
+    isChecked: true
+  },
+  {
+    id: "2",
+    content: "Attend a meeting",
+    isChecked: true
+  },
+  {
+    id: "3",
+    content: "Make a call to manager",
+    isChecked: false
+  },
+  {
+    id: "4",
+    content: "Submit the file",
+    isChecked: true
+  }]);
+
+  const createNewTask = (atIndex: number) =>{
+    //console.warn(`new task list created at index ${atIndex}`);
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      {/* title of the tasklist */}
+      <TextInput
+        style={styles.title}
+        placeholder="title"
+        value={title}
+        onChangeText={(text)=>setTitle(text)}
+        />
+
+      {/* render each tasks */}
+      <FlatList
+        data={taskListItem}
+        renderItem={({item,index})=>
+          <TaskListItem taskListItem={item} onSubmit={()=>createNewTask(index + 1)}/>
+        }
+        keyExtractor={item=>item.id}
+      />
     </View>
   );
 }
@@ -17,16 +59,11 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  title: {
+  title:{
+    color: "white",
     fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    padding: 7,
+    fontWeight: "bold"
+  }
 });
