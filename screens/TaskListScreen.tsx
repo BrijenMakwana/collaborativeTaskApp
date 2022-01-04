@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, TextInput} from 'react-native';
+import { FlatList, KeyboardAvoidingView, StyleSheet, TextInput} from 'react-native';
 import TaskListItem from '../components/TaskListItem';
 
 
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen() {
+export default function TaskListScreen() {
 
   const [title, setTitle] = useState("");
   const [taskListItem, setTaskListItem] = useState([{
@@ -28,6 +28,36 @@ export default function TabOneScreen() {
     id: "4",
     content: "Submit the file",
     isChecked: true
+  },
+  {
+    id: "5",
+    content: "Prepare a report",
+    isChecked: true
+  },
+  {
+    id: "6",
+    content: "Attend a meeting",
+    isChecked: true
+  },
+  {
+    id: "7",
+    content: "Make a call to manager",
+    isChecked: false
+  },
+  {
+    id: "8",
+    content: "Submit the file",
+    isChecked: true
+  },
+  {
+    id: "9",
+    content: "Make a call to manager",
+    isChecked: false
+  },
+  {
+    id: "10",
+    content: "Submit the file",
+    isChecked: true
   }]);
 
   const createNewTask = (atIndex: number) =>{
@@ -35,8 +65,10 @@ export default function TabOneScreen() {
   }
 
   return (
+    
     <View style={styles.container}>
       {/* title of the tasklist */}
+      
       <TextInput
         style={styles.title}
         placeholder="title"
@@ -52,7 +84,9 @@ export default function TabOneScreen() {
         }
         keyExtractor={item=>item.id}
       />
+      
     </View>
+  
   );
 }
 

@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
+import Colors from '../constants/Colors';
+import useColorScheme from '../hooks/useColorScheme';
 import CheckBox from './CheckBox';
 
 export type TaskListItemProps ={
@@ -12,6 +14,8 @@ export type TaskListItemProps ={
 }
 
 const TaskListItem = (props: TaskListItemProps ) => {
+    const colorScheme = useColorScheme();
+
     const [isChecked,setIsChecked] = useState(props.taskListItem.isChecked);
     const [content, setContent] = useState(props.taskListItem.content);
 
@@ -34,8 +38,10 @@ const TaskListItem = (props: TaskListItemProps ) => {
                 placeholder='new task'
                 style={[
                     styles.input,
-                    {color: isChecked ? "grey" : "white",
-                    textDecorationLine: isChecked ? "line-through" : "none"}
+                    {
+                        color: isChecked ? Colors[colorScheme].seperator : Colors[colorScheme].text,
+                        textDecorationLine: isChecked ? "line-through" : "none"
+                    }
                 ]}
                 multiline
                 value={content}

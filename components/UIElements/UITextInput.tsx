@@ -1,0 +1,47 @@
+import React from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
+
+
+export type UITextInputProps = {
+    placeholder: string;
+    secure: boolean;
+}
+
+const UITextInput = (props: UITextInputProps) => {
+    const colorScheme = useColorScheme();
+
+    return (
+        <View style={[styles.container,{
+            borderBottomColor: Colors[colorScheme].tint
+        }]}>
+            <TextInput 
+                style={styles.input}
+                placeholder={props.placeholder}
+                secureTextEntry={props.secure}
+            />
+        </View>
+        
+    )
+}
+
+export default UITextInput
+
+const styles = StyleSheet.create({
+    container:{
+        marginTop: 10,
+        width: 300,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 5,
+        borderBottomWidth: 1,
+    },
+    input:{
+        padding: 10,
+        color: "white",
+        fontSize: 17,
+        width: "100%"
+        
+    },
+})
