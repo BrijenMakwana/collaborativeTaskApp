@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 
@@ -31,7 +31,7 @@ export default UITextInput
 const styles = StyleSheet.create({
     container:{
         marginTop: 10,
-        width: 300,
+        width: Platform.OS === 'web' ? "15%" : "80%",
         alignItems: "center",
         justifyContent: "center",
         padding: 5,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 
@@ -14,6 +14,7 @@ const Button = (props: UIButtonProps) => {
     const colorScheme = useColorScheme();
 
     return (
+        // styles applies according to solid or outline button type
         <Pressable 
             style={[styles.buttonContainer,{
                 backgroundColor: props.type === "solid" ? Colors[colorScheme].tint : "",
@@ -35,7 +36,7 @@ export default Button
 const styles = StyleSheet.create({
     buttonContainer:{
         padding:12,
-        width: 300,
+        width: Platform.OS === 'web' ? "15%" : "80%",
         alignItems: "center",
         justifyContent: "center",
         marginTop: 30,

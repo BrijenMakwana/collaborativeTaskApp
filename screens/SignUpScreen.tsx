@@ -9,6 +9,7 @@ const SignUpScreen = () => {
             <UITextInput placeholder="Name" secure={false}/>
             <UITextInput placeholder="Email" secure={false}/>
             <UITextInput placeholder="Password" secure={true}/>
+            <UITextInput placeholder="Avatar" secure={false}/>
             <UIButton title="Sign Up" onPress={()=>console.warn("Sign Up")} type="outline"/>
         </View>
     )
