@@ -22,7 +22,7 @@ const SignInScreen = () => {
             <UITextInput placeholder="Email" secure={false}/>
             <UITextInput placeholder="Password" secure={true}/>
            
-            <UIButton title="Login" onPress={()=>console.warn("login")} type="solid"/>
+            <UIButton title="Login" onPress={()=>navigation.navigate("Project")} type="solid"/>
             
             <UIButton title="Sign Up" onPress={signUp} type="outline"/>
         </View>

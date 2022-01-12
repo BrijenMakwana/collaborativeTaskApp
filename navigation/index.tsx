@@ -46,13 +46,16 @@ function RootNavigator() {
         backgroundColor: "#212121"
       }
     }}>
+      
       <Stack.Screen name="SignIn" component={SignInScreen} options={{
         title: "Login"
       }} />
       <Stack.Screen name="SignUp" component={SignUpScreen} options={{
         title: "Sign Up"
       }} />
-      <Stack.Screen name="Project" component={ProjectScreen}  />
+      <Stack.Screen name="Project" component={ProjectScreen} options={{
+        headerBackTitleVisible: false
+      }}/>
       <Stack.Screen name="TaskList" component={TaskListScreen}  />
       
     </Stack.Navigator>
