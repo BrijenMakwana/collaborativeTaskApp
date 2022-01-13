@@ -10,22 +10,22 @@ export default function ProjectScreen() {
   const [projects, setProjects] = useState([{
     id: "1",
     title: "SFT Meeting",
-    createdAt: (new Date()).toString()
+    createdAt: (new Date()).toISOString()
   },
   {
     id: "2",
     title: "Annual Report",
-    createdAt: (new Date()).toString()
+    createdAt: (new Date()).toISOString()
   },
   {
     id: "3",
     title: "Prepare Reports",
-    createdAt: (new Date()).toString()
+    createdAt: (new Date()).toISOString()
   },
   {
     id: "4",
     title: "SFT Meeting",
-    createdAt: (new Date()).toString()
+    createdAt: (new Date()).toISOString()
   }]);
 
   return (

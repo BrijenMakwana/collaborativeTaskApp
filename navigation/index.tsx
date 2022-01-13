@@ -15,6 +15,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import ProjectScreen from '../screens/ProjectScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import SplashScreen from '../screens/SplashScreen';
 import TaskListScreen from '../screens/TaskListScreen';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
@@ -46,7 +47,9 @@ function RootNavigator() {
         backgroundColor: "#212121"
       }
     }}>
-      
+      <Stack.Screen name="Splash" component={SplashScreen} options={{
+        headerShown: false
+      }} />
       <Stack.Screen name="SignIn" component={SignInScreen} options={{
         title: "Login"
       }} />
