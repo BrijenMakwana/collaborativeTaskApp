@@ -1,21 +1,39 @@
-import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
-import { StyleSheet, Text, View,ActivityIndicator } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View,ActivityIndicator } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = () => {
 
     const navigation = useNavigation();
 
     useEffect(() => {
-        if(isAuthenticated()){
-            navigation.navigate("Project");
-        }else{
-            navigation.navigate("SignIn");
-        }
+
+        const checkUser = async () =>{
+            if(await isAuthenticated()){
+                navigation.reset(
+                    {
+                      index: 0,
+                      routes:[{name: "Project"}]
+                    }
+                  )
+            }else{
+                navigation.reset(
+                    {
+                      index: 0,
+                      routes:[{name: "SignIn"}]
+                    }
+                  )
+            }
+        } 
+        checkUser();
     }, []);
 
-    const isAuthenticated = () =>{
-        return true;
+    const isAuthenticated = async() =>{
+        const token = await AsyncStorage.getItem('token');
+
+        return !!token;
     }
     return (
         <View style={styles.ccontainer}>

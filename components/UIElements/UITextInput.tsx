@@ -7,6 +7,8 @@ import useColorScheme from '../../hooks/useColorScheme';
 export type UITextInputProps = {
     placeholder: string;
     secure: boolean;
+    value: string;
+    onChangeText: (text:string)=>void
 }
 
 const UITextInput = (props: UITextInputProps) => {
@@ -20,6 +22,8 @@ const UITextInput = (props: UITextInputProps) => {
                 style={styles.input}
                 placeholder={props.placeholder}
                 secureTextEntry={props.secure}
+                value={props.value}
+                onChangeText={props.onChangeText}
             />
         </View>
         
