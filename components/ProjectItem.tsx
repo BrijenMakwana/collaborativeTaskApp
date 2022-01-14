@@ -12,11 +12,6 @@ export type ProjectItemProps = {
         _id: string;
         title: string;
         createdAt: string;
-        taskLists: [{
-            _id: string;
-            content: string;
-            isCompleted: boolean;
-        }]
         
     }
 }

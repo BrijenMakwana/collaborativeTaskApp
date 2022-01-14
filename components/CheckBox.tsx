@@ -17,7 +17,10 @@ const CheckBox = (props: CheckBoxProps) => {
     const checkBoxName = props.isChecked ? "checkbox-marked-outline" : "checkbox-blank-outline";
 
     return (
-        <Pressable onPress={props.onPress}>
+        <Pressable 
+            style={styles.container} 
+            onPress={props.onPress}
+        >
             {/* checkbox icon */}
             <MaterialCommunityIcons 
                 name={checkBoxName} 
@@ -31,4 +34,8 @@ const CheckBox = (props: CheckBoxProps) => {
 
 export default CheckBox
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container:{
+        marginLeft: 10,
+    }
+})

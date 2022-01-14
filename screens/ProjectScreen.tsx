@@ -11,11 +11,6 @@ const MY_PROJECTS = gql`
         _id
         title
         createdAt
-        taskLists {
-          _id
-          content
-          isCompleted
-        }
       }
 }`;
 

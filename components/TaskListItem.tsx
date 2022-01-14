@@ -63,12 +63,13 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 5,
         marginVertical: 4,
-        alignItems: "center"
+        alignItems: "center",
+        
     },
     input:{
         flex: 1,
         marginLeft: 10,
-        fontSize: 18
+        fontSize: 18,
         
     }
 })
