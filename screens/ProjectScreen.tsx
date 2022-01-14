@@ -1,33 +1,42 @@
 import moment from 'moment';
-import { useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Alert, FlatList, StyleSheet } from 'react-native';
 import ProjectItem from '../components/ProjectItem';
-
 import { Text, View } from '../components/Themed';
+import { useQuery,gql } from '@apollo/client';
+
+const MY_PROJECTS = gql`
+  query MyProjects {
+    myProjects {
+        _id
+        title
+        createdAt
+        taskLists {
+          _id
+          content
+          isCompleted
+        }
+      }
+}`;
 
 
 export default function ProjectScreen() {
-  const [projects, setProjects] = useState([{
-    id: "1",
-    title: "SFT Meeting",
-    createdAt: (new Date()).toISOString()
-  },
-  {
-    id: "2",
-    title: "Annual Report",
-    createdAt: (new Date()).toISOString()
-  },
-  {
-    id: "3",
-    title: "Prepare Reports",
-    createdAt: (new Date()).toISOString()
-  },
-  {
-    id: "4",
-    title: "SFT Meeting",
-    createdAt: (new Date()).toISOString()
-  }]);
+  const [projects, setProjects] = useState([]);
 
+  const { data, error, loading } = useQuery(MY_PROJECTS);
+
+  useEffect(() => {
+    if(error){
+      Alert.alert("Error fatching projects",error.message);
+    }
+  }, [error])
+
+  useEffect(() => {
+    if(data){
+      setProjects(data.myProjects)
+    }
+  }, [data])
+ 
   return (
     <View style={styles.container}>
       {/* project list */}
@@ -35,7 +44,7 @@ export default function ProjectScreen() {
       <FlatList
         data={projects}
         renderItem={({item})=><ProjectItem project={item}/>}
-        keyExtractor={item=>item.id}
+        keyExtractor={item=>item._id}
       />
     </View>
   );

@@ -9,9 +9,15 @@ import Colors from '../constants/Colors';
 
 export type ProjectItemProps = {
     project:{
-        id: string;
+        _id: string;
         title: string;
         createdAt: string;
+        taskLists: [{
+            _id: string;
+            content: string;
+            isCompleted: boolean;
+        }]
+        
     }
 }
 
@@ -22,8 +28,14 @@ const ProjectItem = (props: ProjectItemProps) => {
 
     const navigation = useNavigation();
 
+    const goToTaskLists = () =>{
+        navigation.navigate("TaskList",{
+            projectId: props.project._id
+        })
+    }
+    console.log(props.project._id);
     return (
-        <Pressable style={styles.container} onPress={()=>navigation.navigate("TaskList")}>
+        <Pressable style={styles.container} onPress={goToTaskLists}>
             {/* file icon */}
             <View 
                 style={[styles.iconContainer,{
@@ -88,6 +100,7 @@ const styles = StyleSheet.create({
     },
     projectTitle:{
         fontSize: 20,
+        textTransform: "capitalize"
     },
     time:{
         fontSize: 15,

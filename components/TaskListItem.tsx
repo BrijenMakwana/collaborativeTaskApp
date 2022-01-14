@@ -6,9 +6,9 @@ import CheckBox from './CheckBox';
 
 export type TaskListItemProps ={
     taskListItem:{
-        id: string;
+        _id: string;
         content: string;
-        isChecked: boolean;
+        isCompleted: boolean;
     },
     onSubmit: () => void;
 }
@@ -16,7 +16,7 @@ export type TaskListItemProps ={
 const TaskListItem = (props: TaskListItemProps ) => {
     const colorScheme = useColorScheme();
 
-    const [isChecked,setIsChecked] = useState(props.taskListItem.isChecked);
+    const [isCompleted,setIsCompleted] = useState(props.taskListItem.isCompleted);
     const [content, setContent] = useState(props.taskListItem.content);
 
 
@@ -27,11 +27,12 @@ const TaskListItem = (props: TaskListItemProps ) => {
             console.warn("removed");
         }
     }
+    console.log(props.taskListItem)
 
     return (
         <View style={styles.container}>
             {/* checkbox */}
-            <CheckBox isChecked={isChecked} onPress={()=>setIsChecked(!isChecked)}/>
+            <CheckBox isChecked={isCompleted} onPress={()=>setIsCompleted(!isCompleted)}/>
 
             {/* text input for tasks */}
             <TextInput
@@ -39,8 +40,8 @@ const TaskListItem = (props: TaskListItemProps ) => {
                 style={[
                     styles.input,
                     {
-                        color: isChecked ? Colors[colorScheme].seperator : Colors[colorScheme].text,
-                        textDecorationLine: isChecked ? "line-through" : "none"
+                        color: isCompleted ? Colors[colorScheme].seperator : Colors[colorScheme].text,
+                        textDecorationLine: isCompleted ? "line-through" : "none"
                     }
                 ]}
                 multiline
@@ -50,6 +51,7 @@ const TaskListItem = (props: TaskListItemProps ) => {
                 onKeyPress={removeTask}
             />
         </View>
+            
     )
 }
 
