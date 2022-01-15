@@ -10,6 +10,8 @@ import useColorScheme from '../hooks/useColorScheme';
 import { Entypo } from '@expo/vector-icons';
 import UITextInput from '../components/UIElements/UITextInput';
 import UIButton from '../components/UIElements/UIButton';
+import UIFab from '../components/UIElements/UIFab';
+import UIPrompt from '../components/UIElements/UIPrompt';
 
 const MY_PROJECTS = gql`
   query MyProjects {
@@ -92,14 +94,8 @@ export default function ProjectScreen() {
 
       </View> */}
 
-      <Pressable 
-        style={[styles.fab,{
-          backgroundColor: Colors[colorScheme].tint
-        }]}
-        onPress={()=>setModalVisible(!modalVisible)}
-      >
-        <Entypo name="plus" size={28} color="#212121" />
-      </Pressable>
+      <UIFab onPress={resetModal}/>
+
       <Modal
         animationType="slide"
         transparent
@@ -110,34 +106,12 @@ export default function ProjectScreen() {
         }}
        
       >
-        <View style={styles.modal}>
-          {/* close modal */}
-          <Pressable 
-            style={styles.close}
-            onPress={resetModal}  
-          >
-            <Entypo 
-              name="cross" 
-              size={24} 
-              color={Colors[colorScheme].tint} 
-            />
-          </Pressable>
-
-          {/* enter new project title */}
-          <UITextInput 
-            placeholder="Enter project title"
-            value={newProjectTitle}
-            onChangeText={(text)=>setNewProjectTitle(text)}
-            secure={false}  
-          />
-
-          {/* press add to create new project */}
-          <UIButton 
-            title="Add"
-            type="solid"
-            onPress={onCreateProject}
-          />
-        </View>
+        <UIPrompt
+          onClose={resetModal}
+          value={newProjectTitle}
+          onChangeText={(text)=>setNewProjectTitle(text)}
+          onPress={onCreateProject}
+        />
       </Modal>
     </View>
   );
@@ -147,16 +121,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-  },
-  fab:{
-    height: 50,
-    width: 50,
-    position: "absolute",
-    bottom: 60,
-    right: 25,
-    borderRadius: 25,
-    justifyContent: "center",
-    alignItems: "center"
   },
   modal: {
     justifyContent: "center",
