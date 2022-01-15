@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { gql, useMutation } from '@apollo/client';
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -13,21 +14,50 @@ export type TaskListItemProps ={
     onSubmit: () => void;
 }
 
+const UPDATE_TASKLIST = gql`
+    mutation UpdateTaskList($_id: String!, $isCompleted: Boolean, $content: String) {
+        updateTaskList(_id: $_id, isCompleted: $isCompleted, content: $content) {
+            _id
+            content
+            isCompleted
+    }
+  }
+  `;
+
+
+
+
 const TaskListItem = (props: TaskListItemProps ) => {
     const colorScheme = useColorScheme();
 
     const [isCompleted,setIsCompleted] = useState(props.taskListItem.isCompleted);
     const [content, setContent] = useState(props.taskListItem.content);
 
-
-    // remove task when click on Backspace while content is null
-    const removeTask = ({nativeEvent}) =>{
-        
-        if(nativeEvent.key === "Backspace" && content === ""){
-            console.warn("removed");
-        }
+    const [updateTaskList,{ data, error,loading}] = useMutation(UPDATE_TASKLIST);
+    
+    
+// update a task
+    const updateTask = (text: string) =>{
+        setContent(text);
+        updateTaskList({variables:{
+            _id: props.taskListItem._id,
+            isCompleted,
+            content
+        }})
     }
-    console.log(props.taskListItem)
+
+     // update isCompleted of a task
+    useEffect(() => {
+        updateTaskList({variables:{
+            _id: props.taskListItem._id,
+            isCompleted,
+            content
+        }})
+    }, [isCompleted])
+
+   
+    
+
 
     return (
         <View style={styles.container}>
@@ -44,11 +74,11 @@ const TaskListItem = (props: TaskListItemProps ) => {
                         textDecorationLine: isCompleted ? "line-through" : "none"
                     }
                 ]}
-                multiline
+                blurOnSubmit = {true}
                 value={content}
-                onChangeText={(text)=>setContent(text)}
+                onChangeText={(text)=>updateTask(text)}
                 onSubmitEditing={props.onSubmit}
-                onKeyPress={removeTask}
+                multiline
             />
         </View>
             
@@ -70,6 +100,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 10,
         fontSize: 18,
+        maxWidth: "100%"
         
     }
 })

@@ -5,20 +5,36 @@ import TaskListItem from '../components/TaskListItem';
 
 
 import { Text, View } from '../components/Themed';
-import { useQuery,gql } from '@apollo/client';
+import { useQuery,useMutation,gql } from '@apollo/client';
 
+
+// get project details for tasklists
 const GET_PROJECT = gql`
-query GetProject($_id: String!) {
-  getProject(_id: $_id) {
-    title
-    taskLists {
+  query GetProject($_id: String!) {
+    getProject(_id: $_id) {
+      title
+      taskLists {
+        _id
+        content
+        isCompleted
+      }
+    }
+  }`;
+
+// create tasklist
+
+const CREATE_TASKLIST = gql`
+  mutation CreateTaskList($content: String!, $projectId: String!) {
+    createTaskList(content: $content, projectId: $projectId) {
       _id
       content
       isCompleted
+      project {
+        _id
+      }
     }
   }
-}`;
-
+  `;
 
 export default function TaskListScreen() {
 
@@ -28,7 +44,21 @@ export default function TaskListScreen() {
   
 
   const route = useRoute();
+
+  // query for getting tasklists in a project
   const { data, error, loading } = useQuery(GET_PROJECT,{variables: {_id: route.params.projectId}});
+
+
+  // mutation for creating a new tasklist
+  const [createTaskList,
+    { data: createTaskListData, error: createTaskListError,loading: createTaskListLoading}
+  ] = useMutation(CREATE_TASKLIST, 
+    {
+    refetchQueries: [
+      GET_PROJECT, // DocumentNode object parsed with gql
+      'GetProject' // Query name
+    ],
+  });
 
   
   useEffect(() => {
@@ -41,12 +71,19 @@ export default function TaskListScreen() {
     if(data){
       setTitle(data.getProject.title)
       setTaskLists(data.getProject.taskLists);
-      console.log(data.getProject);
+      
     }
    }, [data])
 
   const createNewTask = (atIndex: number) =>{
     //console.warn(`new task list created at index ${atIndex}`);
+
+    createTaskList({
+      variables:{
+        content: "",
+        projectId: route.params.projectId
+      }
+    })
   }
 
   return (

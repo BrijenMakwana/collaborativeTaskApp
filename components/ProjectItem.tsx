@@ -54,6 +54,8 @@ const ProjectItem = (props: ProjectItemProps) => {
                     value={title}
                     onChangeText={(text)=>setTitle(text)}
                     numberOfLines={1}
+                    multiline
+                    blurOnSubmit={true}
                     
                 />
                 <Text 
@@ -83,6 +85,10 @@ const styles = StyleSheet.create({
     iconContainer:{
         padding: 10,
         borderRadius: 10,
+        height: 50,
+        justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "center"
        
     },
     projectContent:{
@@ -95,9 +101,13 @@ const styles = StyleSheet.create({
     },
     projectTitle:{
         fontSize: 20,
-        textTransform: "capitalize"
+        textTransform: "capitalize",
+        flex: 1,
+        height: "100%",
+        textAlignVertical: "center"
     },
     time:{
         fontSize: 15,
+        marginLeft: 10
     }
 })
