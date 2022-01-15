@@ -32,7 +32,7 @@ const SplashScreen = () => {
 
     const isAuthenticated = async() =>{
         const token = await AsyncStorage.getItem('token');
-
+        console.log(token,"token");
         return !!token;
     }
     return (

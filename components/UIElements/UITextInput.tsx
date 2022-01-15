@@ -21,6 +21,7 @@ const UITextInput = (props: UITextInputProps) => {
             <TextInput 
                 style={styles.input}
                 placeholder={props.placeholder}
+                placeholderTextColor="grey"
                 secureTextEntry={props.secure}
                 value={props.value}
                 onChangeText={props.onChangeText}

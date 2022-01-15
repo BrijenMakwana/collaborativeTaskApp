@@ -108,6 +108,8 @@ const styles = StyleSheet.create({
     },
     time:{
         fontSize: 15,
-        marginLeft: 10
+        marginLeft: 10,
+       
+       
     }
 })

@@ -12,6 +12,7 @@ export type TaskListItemProps ={
         isCompleted: boolean;
     },
     onSubmit: () => void;
+   
 }
 
 const UPDATE_TASKLIST = gql`
@@ -56,7 +57,13 @@ const TaskListItem = (props: TaskListItemProps ) => {
     }, [isCompleted])
 
    
-    
+     // remove task when click on Backspace while content is null
+     const removeTask = ({nativeEvent}) =>{
+
+        if(nativeEvent.key === "Backspace" && content === ""){
+            console.warn("removed");
+        }
+    }
 
 
     return (
@@ -79,6 +86,7 @@ const TaskListItem = (props: TaskListItemProps ) => {
                 onChangeText={(text)=>updateTask(text)}
                 onSubmitEditing={props.onSubmit}
                 multiline
+                onKeyPress={removeTask}
             />
         </View>
             

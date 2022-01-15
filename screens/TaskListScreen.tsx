@@ -36,6 +36,13 @@ const CREATE_TASKLIST = gql`
   }
   `;
 
+  // delete tasklist
+
+  const DELETE_TASKLIST = gql`
+    mutation DeleteTaskList($_id: String!) {
+      deleteTaskList(_id: $_id)
+    }`;
+
 export default function TaskListScreen() {
 
   const [title, setTitle] = useState("");
@@ -53,6 +60,17 @@ export default function TaskListScreen() {
   const [createTaskList,
     { data: createTaskListData, error: createTaskListError,loading: createTaskListLoading}
   ] = useMutation(CREATE_TASKLIST, 
+    {
+    refetchQueries: [
+      GET_PROJECT, // DocumentNode object parsed with gql
+      'GetProject' // Query name
+    ],
+  });
+
+  // mutation for deleting a tasklist
+  const [deleteTaskList,
+    { data: deleteTaskListData, error: deleteTaskListError,loading: deleteTaskListLoading}
+  ] = useMutation(DELETE_TASKLIST, 
     {
     refetchQueries: [
       GET_PROJECT, // DocumentNode object parsed with gql
@@ -82,6 +100,15 @@ export default function TaskListScreen() {
       variables:{
         content: "",
         projectId: route.params.projectId
+      }
+    })
+  }
+
+  const deleteTask = (id: string) =>{
+
+    deleteTaskList({
+      variables:{
+        _id: id
       }
     })
   }
