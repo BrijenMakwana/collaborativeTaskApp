@@ -1,6 +1,6 @@
 import { Entypo } from '@expo/vector-icons';
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import UIButton from './UIButton';
@@ -16,10 +16,11 @@ export type UIPromptProps = {
 const UIPrompt = (props: UIPromptProps ) => {
 
     const colorScheme = useColorScheme(); 
+    //const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <View style={styles.modal}>
-        {/* close modal */}
+            {/* close modal */}
             <Pressable 
                 style={styles.close}
                 onPress={props.onClose}  
@@ -31,7 +32,7 @@ const UIPrompt = (props: UIPromptProps ) => {
                 />
             </Pressable>
 
-            {/* enter new project title */}
+                {/* enter new project title */}
             <UITextInput 
                 placeholder="Enter project title"
                 value={props.value}
@@ -39,13 +40,13 @@ const UIPrompt = (props: UIPromptProps ) => {
                 secure={false}  
             />
 
-            {/* press add to create new project */}
+                {/* press add to create new project */}
             <UIButton 
                 title="Add"
                 type="solid"
                 onPress={props.onPress}
             />
-      </View>
+        </View>
     )
 }
 

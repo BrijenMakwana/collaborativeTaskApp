@@ -1,11 +1,13 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, KeyboardAvoidingView, StyleSheet, TextInput} from 'react-native';
+import { Alert, FlatList, KeyboardAvoidingView, Modal, StyleSheet, TextInput} from 'react-native';
 import TaskListItem from '../components/TaskListItem';
 
 
 import { Text, View } from '../components/Themed';
 import { useQuery,useMutation,gql } from '@apollo/client';
+import UIFab from '../components/UIElements/UIFab';
+import UIPrompt from '../components/UIElements/UIPrompt';
 
 
 // get project details for tasklists
@@ -47,6 +49,9 @@ export default function TaskListScreen() {
 
   const [title, setTitle] = useState("");
   const [taskLists, setTaskLists] = useState([]);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newTask,setNewTask] = useState("");
 
   
 
@@ -93,15 +98,18 @@ export default function TaskListScreen() {
     }
    }, [data])
 
-  const createNewTask = (atIndex: number) =>{
+  const createNewTask = () =>{
     //console.warn(`new task list created at index ${atIndex}`);
 
     createTaskList({
       variables:{
-        content: "",
+        content: newTask,
         projectId: route.params.projectId
       }
-    })
+    });
+      
+     setNewTask("");
+     setModalVisible(false);
   }
 
   const deleteTask = (id: string) =>{
@@ -112,6 +120,14 @@ export default function TaskListScreen() {
       }
     })
   }
+
+  const resetModal = () =>{
+    // go away the modal after adding
+    setModalVisible(!modalVisible);
+
+    // setting title back to empty string
+    setNewTask("");
+ }
 
   return (
     
@@ -129,10 +145,33 @@ export default function TaskListScreen() {
       <FlatList
         data={taskLists}
         renderItem={({item,index})=>
-          <TaskListItem taskListItem={item} onSubmit={()=>createNewTask(index + 1)}/>
+          <TaskListItem taskListItem={item} onSubmit={createNewTask}/>
         }
         keyExtractor={item=>item._id}
       />
+
+      {/* fab component for adding new task */}
+      <UIFab onPress={resetModal}/>
+
+      {/* modal for adding new task */}
+
+      <Modal
+        animationType="slide"
+        transparent
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+       
+      >
+        <UIPrompt
+          onClose={resetModal}
+          value={newTask}
+          onChangeText={(text)=>setNewTask(text)}
+          onPress={createNewTask}
+        />
+      </Modal>
       
     </View>
   

@@ -90,12 +90,11 @@ export default function ProjectScreen() {
         keyExtractor={item=>item._id}
         style={{marginBottom: 20}}
       />
-      {/* <View style={{height:200}}>
-
-      </View> */}
+      
 
       <UIFab onPress={resetModal}/>
 
+      {/* modal for new project */}
       <Modal
         animationType="slide"
         transparent
