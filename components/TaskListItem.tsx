@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import CheckBox from './CheckBox';
@@ -67,7 +67,10 @@ const TaskListItem = (props: TaskListItemProps ) => {
 
 
     return (
-        <View style={styles.container}>
+        <Pressable 
+            style={styles.container}
+            onLongPress={()=>console.warn("long press")}
+        >
             {/* checkbox */}
             <CheckBox isChecked={isCompleted} onPress={()=>setIsCompleted(!isCompleted)}/>
 
@@ -88,7 +91,7 @@ const TaskListItem = (props: TaskListItemProps ) => {
                 multiline
                 onKeyPress={removeTask}
             />
-        </View>
+        </Pressable>
             
     )
 }
@@ -102,7 +105,6 @@ const styles = StyleSheet.create({
         padding: 5,
         marginVertical: 4,
         alignItems: "center",
-        
     },
     input:{
         flex: 1,

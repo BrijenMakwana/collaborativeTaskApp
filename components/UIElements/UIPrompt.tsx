@@ -8,6 +8,7 @@ import UITextInput from './UITextInput';
 
 export type UIPromptProps = {
     onClose: () => void;
+    placeholder: string;
     value: string;
     onChangeText: (text: string) => void;
     onPress: () => void;
@@ -34,7 +35,7 @@ const UIPrompt = (props: UIPromptProps ) => {
 
                 {/* enter new project title */}
             <UITextInput 
-                placeholder="Enter project title"
+                placeholder={props.placeholder}
                 value={props.value}
                 onChangeText={props.onChangeText}
                 secure={false}  

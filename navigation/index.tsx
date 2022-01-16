@@ -87,7 +87,9 @@ function RootNavigator() {
           </Pressable>
         )
       }}/>
-      <Stack.Screen name="TaskList" component={TaskListScreen}  />
+      <Stack.Screen name="TaskList" component={TaskListScreen} options={{
+        headerBackTitle: "Back",
+        }} />
       
     </Stack.Navigator>
   );

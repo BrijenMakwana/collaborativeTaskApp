@@ -68,6 +68,7 @@ export default function ProjectScreen() {
     })
     resetModal();
    
+   
   }
 
   const resetModal = () =>{
@@ -107,6 +108,7 @@ export default function ProjectScreen() {
       >
         <UIPrompt
           onClose={resetModal}
+          placeholder="Enter project title"
           value={newProjectTitle}
           onChangeText={(text)=>setNewProjectTitle(text)}
           onPress={onCreateProject}
