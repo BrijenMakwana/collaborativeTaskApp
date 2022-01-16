@@ -156,7 +156,8 @@ export default function TaskListScreen() {
 
       {/* collaborators avatars */}
       { users.length>1 ?
-      (<View style={styles.collaborators}>
+      (
+      <View style={styles.collaborators}>
         <FlatList
           data={users}
           renderItem={({item})=><UIAvatar uri={item.avatar}/>}
@@ -183,10 +184,20 @@ export default function TaskListScreen() {
               
             </View>
           }
-        />
-          {/* <UIAvatar uri='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'/> */}
-       
-      </View>): (<View></View>)
+        />       
+      </View>
+      ):
+      (
+        <View 
+          style={[styles.peopleIcon,{
+            backgroundColor: Colors[colorScheme].seperator,
+            borderColor: Colors[colorScheme].tint
+            }]}
+          >
+          <Ionicons name="md-person-add" size={20} color={Colors[colorScheme].text} />
+        
+        </View>
+        )
 }
       {/* render each tasks */}
       <FlatList
