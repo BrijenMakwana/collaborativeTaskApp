@@ -1,25 +1,58 @@
+import { gql, useQuery } from '@apollo/client';
 import { Entypo } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { StyleSheet, Text, Image, Pressable, View, Modal } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, Image, Pressable, View, Modal, Alert } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 
 export type UIAvatarProps = {
-    uri: string;
-    name: string;
-    email: string;
+    _id: string;
 }
+
+// get user graphQL query
+const GET_USER = gql`
+  query GetUser($_id: String!) {
+      getUser(_id: $_id) {
+        _id
+        name
+        email
+        avatar
+      }
+    }
+`;
+
 
 const UIAvatar = (props: UIAvatarProps) => {
     const colorScheme = useColorScheme();
     const [modalVisible,setModalVisible] = useState(false);
+
+    const [userAvatar,setUserAvatar] = useState("");
+    const [userName,setUserName] = useState("");
+    const [userEmail,setUserEmail] = useState("");
+
+    // get user query
+    const {data,error,loading} = useQuery(GET_USER,{variables:{_id: props._id}});
+    
+    useEffect(() => {
+      if(error){
+        Alert.alert("Error fatching user data",error.message);
+      }
+    }, [error])
+
+    useEffect(() => {
+      if(data){
+        setUserAvatar(data.getUser.avatar);
+        setUserName(data.getUser.name);
+        setUserEmail(data.getUser.email);
+      }
+    }, [data])
     
     return (
       <View>
         <Pressable onPress={()=>setModalVisible(true)}>
           <Image
               source={{
-                uri: props.uri
+                uri: userAvatar || "https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
               }}
               style={[styles.image,{
                 borderColor: Colors[colorScheme].tint
@@ -27,6 +60,8 @@ const UIAvatar = (props: UIAvatarProps) => {
               resizeMode= "cover"
           />
         </Pressable>
+
+        {/* modal for user information */}
         <Modal
           animationType="slide"
           transparent
@@ -37,6 +72,7 @@ const UIAvatar = (props: UIAvatarProps) => {
               style={styles.close}
               onPress={()=>setModalVisible(false)}  
             >
+              {/* close the modal */}
               <Entypo 
                 name="cross" 
                 size={24} 
@@ -44,18 +80,23 @@ const UIAvatar = (props: UIAvatarProps) => {
               />
             </Pressable>
             <View style={styles.userInfo}>
+              {/* user avatar big */}
               <Image
                 source={{
-                  uri: props.uri
+                  uri: userAvatar || "https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
                 }}
                 style={[styles.userAvatar,{
                   borderColor: Colors[colorScheme].tint
                 }]}
                 resizeMode= "cover"
               />
+
+              {/* user name */}
               <Text style={styles.userName}>
-                {props.name}
+                {userName}
               </Text>
+
+              {/* user email */}
               <Text 
                 style={[styles.userEmail,{
                   color: Colors[colorScheme].tint
@@ -63,7 +104,7 @@ const UIAvatar = (props: UIAvatarProps) => {
                 adjustsFontSizeToFit 
                 numberOfLines={1}
               >
-                {props.email}
+                {userEmail}
               </Text>
             </View>
             

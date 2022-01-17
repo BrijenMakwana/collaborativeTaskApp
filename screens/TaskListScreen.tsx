@@ -27,9 +27,6 @@ const GET_PROJECT = gql`
       }
       users {
         _id
-        avatar
-        name
-        email
       }
     }
   }`;
@@ -134,7 +131,7 @@ export default function TaskListScreen() {
       <View style={styles.collaborators}>
         <FlatList
           data={users}
-          renderItem={({item})=><UIAvatar uri={item.avatar} name={item.name} email={item.email}/>}
+          renderItem={({item})=><UIAvatar _id={item._id}/>}
           keyExtractor={item=>item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
