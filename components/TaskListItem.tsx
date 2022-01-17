@@ -37,17 +37,17 @@ const TaskListItem = (props: TaskListItemProps ) => {
     const [updateTaskList,{ data, error,loading}] = useMutation(UPDATE_TASKLIST);
     
     
-// update a task
-    const updateTask = (text: string) =>{
-        setContent(text);
+    // update a task whenever content change
+    useEffect(() => {
         updateTaskList({variables:{
             _id: props.taskListItem._id,
             isCompleted,
             content
         }})
-    }
+       
+    }, [content])
 
-     // update isCompleted of a task
+     // update isCompleted of a task whenever user check/uncheck checkbox
     useEffect(() => {
         updateTaskList({variables:{
             _id: props.taskListItem._id,
@@ -86,7 +86,7 @@ const TaskListItem = (props: TaskListItemProps ) => {
                 ]}
                 blurOnSubmit = {true}
                 value={content}
-                onChangeText={(text)=>updateTask(text)}
+                onChangeText={(text)=>setContent(text)}
                 onSubmitEditing={props.onSubmit}
                 multiline
                 onKeyPress={removeTask}
