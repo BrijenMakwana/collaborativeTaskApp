@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons';
@@ -6,6 +6,8 @@ import moment from 'moment';
 import { useNavigation } from '@react-navigation/native';
 import useColorScheme from '../hooks/useColorScheme';
 import Colors from '../constants/Colors';
+
+import { gql, useMutation } from '@apollo/client';
 
 export type ProjectItemProps = {
     project:{
@@ -16,19 +18,43 @@ export type ProjectItemProps = {
     }
 }
 
+const UPDATE_PROJECT_MUTATION = gql`
+    mutation UpdateProject($_id: String!, $title: String!) {
+        updateProject(_id: $_id, title: $title) {
+        _id
+        title
+        createdAt
+        }
+    }
+    `;
+
 const ProjectItem = (props: ProjectItemProps) => {
     const colorScheme = useColorScheme();
 
     const [title, setTitle] = useState(props.project.title);
 
+    const [updateProject] = useMutation(UPDATE_PROJECT_MUTATION);
+
     const navigation = useNavigation();
 
+    // update project title whenever title changes
+    useEffect(() => {
+        updateProject({
+            variables:{
+               _id: props.project._id,
+                title
+            }
+        });
+       
+    }, [title])
+
+    // navigate to taskliist screen and passing project id to fetch tasklists under that project
     const goToTaskLists = () =>{
         navigation.navigate("TaskList",{
             projectId: props.project._id
         })
     }
-    console.log(props.project._id);
+   
     return (
         <Pressable style={styles.container} onPress={goToTaskLists}>
             {/* file icon */}
