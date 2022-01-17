@@ -1,4 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import Colors from '../constants/Colors';
@@ -25,17 +26,29 @@ const UPDATE_TASKLIST = gql`
   }
   `;
 
+// delete tasklist
+
+const DELETE_TASKLIST = gql`
+    mutation DeleteTaskList($_id: String!) {
+    deleteTaskList(_id: $_id)
+    }`;
+
 
 
 
 const TaskListItem = (props: TaskListItemProps ) => {
     const colorScheme = useColorScheme();
+    const navigation = useNavigation();
 
     const [isCompleted,setIsCompleted] = useState(props.taskListItem.isCompleted);
     const [content, setContent] = useState(props.taskListItem.content);
 
+    // mutation for update task
     const [updateTaskList,{ data, error,loading}] = useMutation(UPDATE_TASKLIST);
-    
+
+    // mutation for deleting a tasklist
+    const [deleteTaskList,{data: deleteData}] = useMutation(DELETE_TASKLIST);
+
     
     // update a task whenever content change
     useEffect(() => {
@@ -44,6 +57,8 @@ const TaskListItem = (props: TaskListItemProps ) => {
             isCompleted,
             content
         }})
+    
+        
        
     }, [content])
 
@@ -62,6 +77,12 @@ const TaskListItem = (props: TaskListItemProps ) => {
 
         if(nativeEvent.key === "Backspace" && content === ""){
             console.warn("removed");
+            deleteTaskList({
+                variables:{
+                    _id: props.taskListItem._id
+                }
+            });
+            //navigation.navigate("Project");
         }
     }
 
@@ -77,6 +98,7 @@ const TaskListItem = (props: TaskListItemProps ) => {
             {/* text input for tasks */}
             <TextInput
                 placeholder='new task'
+                placeholderTextColor="grey"
                 style={[
                     styles.input,
                     {

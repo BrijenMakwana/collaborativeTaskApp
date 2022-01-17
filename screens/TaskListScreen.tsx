@@ -47,12 +47,7 @@ const CREATE_TASKLIST = gql`
   }
   `;
 
-  // delete tasklist
-
-  const DELETE_TASKLIST = gql`
-    mutation DeleteTaskList($_id: String!) {
-      deleteTaskList(_id: $_id)
-    }`;
+  
 
 export default function TaskListScreen() {
   const colorScheme = useColorScheme();
@@ -83,16 +78,7 @@ export default function TaskListScreen() {
     ],
   });
 
-  // mutation for deleting a tasklist
-  const [deleteTaskList,
-    { data: deleteTaskListData, error: deleteTaskListError,loading: deleteTaskListLoading}
-  ] = useMutation(DELETE_TASKLIST, 
-    {
-    refetchQueries: [
-      GET_PROJECT, // DocumentNode object parsed with gql
-      'GetProject' // Query name
-    ],
-  });
+  
 
   
   useEffect(() => {
@@ -123,15 +109,6 @@ export default function TaskListScreen() {
       
      setNewTask("");
      setModalVisible(false);
-  }
-
-  const deleteTask = (id: string) =>{
-
-    deleteTaskList({
-      variables:{
-        _id: id
-      }
-    })
   }
 
   const resetModal = () =>{

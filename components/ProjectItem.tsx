@@ -77,6 +77,7 @@ const ProjectItem = (props: ProjectItemProps) => {
                     }]}
 
                     placeholder="add project title"
+                    placeholderTextColor="grey"
                     value={title}
                     onChangeText={(text)=>setTitle(text)}
                     numberOfLines={1}
