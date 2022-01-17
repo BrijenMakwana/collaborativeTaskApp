@@ -28,6 +28,8 @@ const GET_PROJECT = gql`
       users {
         _id
         avatar
+        name
+        email
       }
     }
   }`;
@@ -124,12 +126,7 @@ export default function TaskListScreen() {
     <View style={styles.container}>
       {/* title of the project */}
       
-      <TextInput
-        style={styles.title}
-        placeholder="title"
-        value={title}
-        onChangeText={(text)=>setTitle(text)}
-        />
+      <Text style={styles.title}>{title}</Text>
 
       {/* collaborators avatars */}
       { users.length>1 ?
@@ -137,7 +134,7 @@ export default function TaskListScreen() {
       <View style={styles.collaborators}>
         <FlatList
           data={users}
-          renderItem={({item})=><UIAvatar uri={item.avatar}/>}
+          renderItem={({item})=><UIAvatar uri={item.avatar} name={item.name} email={item.email}/>}
           keyExtractor={item=>item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -255,7 +252,6 @@ const styles = StyleSheet.create({
   },
   numberOfUsersText:{
     fontSize: 17,
-    
     fontWeight: "bold",
     
     
