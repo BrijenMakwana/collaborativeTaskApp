@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, Alert, FlatList, KeyboardAvoidingView, Modal, StyleSheet, TextInput} from 'react-native';
+import { Image, Alert, FlatList, KeyboardAvoidingView, Modal, StyleSheet, TextInput, Pressable} from 'react-native';
 import TaskListItem from '../components/TaskListItem';
 
 
@@ -46,6 +46,17 @@ const CREATE_TASKLIST = gql`
   }
   `;
 
+  // add users to the project
+
+  const ADD_USER_TO_PROJECT = gql`
+    mutation AddUserToProject($projectId: String!, $userEmail: String!) {
+      addUserToProject(projectId: $projectId, userEmail: $userEmail) {
+        _id
+      }
+    }
+    `;
+
+
   
 
 export default function TaskListScreen() {
@@ -57,6 +68,9 @@ export default function TaskListScreen() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [newTask,setNewTask] = useState("");
+
+  const [addUserModal,setAddUserModal] = useState(false);
+  const [newUser,setNewUser] = useState("")
 
   
 
@@ -70,6 +84,15 @@ export default function TaskListScreen() {
   const [createTaskList,
     { data: createTaskListData, error: createTaskListError,loading: createTaskListLoading}
   ] = useMutation(CREATE_TASKLIST, 
+    {
+    refetchQueries: [
+      GET_PROJECT, // DocumentNode object parsed with gql
+      'GetProject' // Query name
+    ],
+  });
+
+  // mutation for adding new users to a project
+  const [addUserToProject,{data: addUserToProjectData,error:addUserToProjectError}] = useMutation(ADD_USER_TO_PROJECT, 
     {
     refetchQueries: [
       GET_PROJECT, // DocumentNode object parsed with gql
@@ -118,6 +141,35 @@ export default function TaskListScreen() {
     setNewTask("");
  }
 
+
+ useEffect(() => {
+   if(addUserToProjectError){
+     Alert.alert("error adding user",addUserToProjectError.message);
+   }
+   
+ }, [addUserToProjectError])
+
+  const addNewUser = () =>{
+    //console.warn(`new task list created at index ${atIndex}`);
+
+    addUserToProject({
+      variables:{
+        projectId: route.params.projectId,
+        userEmail: newUser
+      }
+    });
+    
+   setNewUser("");
+   setAddUserModal(false);
+}
+  const resetAddUserModal = () =>{
+    // go away the modal after adding
+    setAddUserModal(!addUserModal);
+
+    // setting title back to empty string
+    setNewUser("");
+  }
+
   return (
     
     <View style={styles.container}>
@@ -136,14 +188,21 @@ export default function TaskListScreen() {
           horizontal
           showsHorizontalScrollIndicator={false}
           ListHeaderComponent={
-            <View style={[styles.peopleIcon,{
-              backgroundColor: Colors[colorScheme].seperator,
-              borderColor: Colors[colorScheme].tint
-            }]}>
+            <Pressable 
+              style={[styles.peopleIcon,{
+                backgroundColor: Colors[colorScheme].seperator,
+                borderColor: Colors[colorScheme].tint
+            }]}
+              onPress={resetAddUserModal}
+            >
               <Ionicons name="people" size={20} color={Colors[colorScheme].text} />
+
+              {/* container of user counts */}
               <View style={[styles.numberOfUsersContainer,{
                 backgroundColor: Colors[colorScheme].tint
               }]}>
+
+                {/* number of users */}
                 <Text  
                   style={[styles.numberOfUsersText,{
                     color: Colors[colorScheme].seperator,
@@ -153,21 +212,24 @@ export default function TaskListScreen() {
                 </Text>
               </View>
               
-            </View>
+            </Pressable>
           }
         />       
       </View>
       ):
+
+      // render if only you are in a tasklist
       (
-        <View 
+        <Pressable 
           style={[styles.peopleIcon,{
             backgroundColor: Colors[colorScheme].seperator,
             borderColor: Colors[colorScheme].tint
             }]}
-          >
+          onPress={resetAddUserModal}
+        >
           <Ionicons name="md-person-add" size={20} color={Colors[colorScheme].text} />
         
-        </View>
+        </Pressable>
         )
 }
       {/* render each tasks */}
@@ -189,10 +251,6 @@ export default function TaskListScreen() {
         animationType="slide"
         transparent
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
        
       >
         <UIPrompt
@@ -201,6 +259,23 @@ export default function TaskListScreen() {
           value={newTask}
           onChangeText={(text)=>setNewTask(text)}
           onPress={createNewTask}
+        />
+      </Modal>
+
+      {/* modal for adding new users */}
+
+      <Modal
+        animationType="slide"
+        transparent
+        visible={addUserModal}
+       
+      >
+        <UIPrompt
+          onClose={resetAddUserModal}
+          placeholder="Enter new user email"
+          value={newUser}
+          onChangeText={(text)=>setNewUser(text)}
+          onPress={addNewUser}
         />
       </Modal>
       
