@@ -1,6 +1,6 @@
 import { Entypo } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import UIButton from './UIButton';
@@ -59,11 +59,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         position: "absolute",
         bottom: 300,
-        width: "90%",
+        width: Platform.OS === "web" ? "30%" : "90%",
         height: 230,
-        left: 20,
+        left: Platform.OS === "web" ? "35%" : 20,
         borderRadius: 10,
-        backgroundColor: "#212121"
+        backgroundColor: "#212121",
+        flex: 1
        },
       close:{
         marginRight: 30,

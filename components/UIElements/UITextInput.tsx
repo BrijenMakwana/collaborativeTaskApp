@@ -36,7 +36,7 @@ export default UITextInput
 const styles = StyleSheet.create({
     container:{
         marginTop: 10,
-        width: Platform.OS === 'web' ? "15%" : "80%",
+        width: Platform.OS === 'web' ? "55%" : "80%",
         alignItems: "center",
         justifyContent: "center",
         padding: 5,
@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
         padding: 10,
         color: "white",
         fontSize: 17,
-        width: "100%"
+        width: "100%",
+        
         
     },
 })

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, Modal, Pressable, StyleSheet } from 'react-native';
+import { Alert, FlatList, Modal, Platform, Pressable, StyleSheet } from 'react-native';
 import ProjectItem from '../components/ProjectItem';
 import { Text, View } from '../components/Themed';
 import { useQuery,gql, useMutation } from '@apollo/client';
@@ -80,6 +80,7 @@ export default function ProjectScreen() {
   }
  
   return (
+    
     <View style={[styles.container,{
       opacity: modalVisible ? 0.4 : 1
     }]}>
@@ -90,6 +91,7 @@ export default function ProjectScreen() {
         renderItem={({item})=><ProjectItem project={item}/>}
         keyExtractor={item=>item._id}
         style={{marginBottom: 20}}
+        showsVerticalScrollIndicator={false}
       />
       
 
@@ -115,30 +117,17 @@ export default function ProjectScreen() {
         />
       </Modal>
     </View>
+   
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-  },
-  modal: {
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    bottom: 300,
-    width: "90%",
-    height: 230,
-    left: 20,
-    borderRadius: 10,
-    backgroundColor: "#212121"
-   },
-  close:{
-    marginRight: 30,
+    width: Platform.OS === "web" ? "40%" : "100%",
+    alignSelf: "center",
     padding: 5,
-    alignSelf: "flex-end",
-    justifyContent: "center",
-    alignItems: "center"
-  }
+    
+  },
+ 
 });

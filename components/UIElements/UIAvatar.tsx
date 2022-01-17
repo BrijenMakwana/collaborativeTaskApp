@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import { Entypo } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, Image, Pressable, View, Modal, Alert } from 'react-native';
+import { StyleSheet, Text, Image, Pressable, View, Modal, Alert, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 
@@ -131,9 +131,9 @@ const styles = StyleSheet.create({
     modal:{
         position: "absolute",
         bottom: 300,
-        width: "60%",
-        height: "30%",
-        left: 80,
+        width: Platform.OS === "web" ? "20%" : "60%",
+        height: Platform.OS === "web" ? "40%" : "30%",
+        left: Platform.OS === "web" ? "40%" : 80,
         borderRadius: 10,
         backgroundColor: "#212121",
         padding: 10,

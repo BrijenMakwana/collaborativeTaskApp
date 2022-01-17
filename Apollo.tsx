@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const URI = 'http://localhost:4000/';
+const URI = 'https://graphql-collaborativetask.herokuapp.com/';
 
 const httpLink = createHttpLink({
   uri: URI,
