@@ -19,7 +19,8 @@ Features:
 Technology used:
 
 Frontend is developed in React Native expo.
-MongoDB Atlas is used for storing the data.
+Node.js us used to create an API.
+Database created in MongoDB Atlas.
 Apollo GraphQL API is used to get the data from database.
 
 
