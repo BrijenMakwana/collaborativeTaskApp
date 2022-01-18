@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, Modal, Platform, Pressable, StyleSheet } from 'react-native';
+import { Alert, FlatList, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet } from 'react-native';
 import ProjectItem from '../components/ProjectItem';
 import { Text, View } from '../components/Themed';
 import { useQuery,gql, useMutation } from '@apollo/client';
@@ -81,7 +81,7 @@ export default function ProjectScreen() {
  
   return (
     
-    <View style={[styles.container,{
+    <KeyboardAvoidingView behavior="padding" style={[styles.container,{
       opacity: modalVisible ? 0.4 : 1
     }]}>
       {/* project list */}
@@ -90,10 +90,9 @@ export default function ProjectScreen() {
         data={projects}
         renderItem={({item})=><ProjectItem project={item}/>}
         keyExtractor={item=>item._id}
-        style={{marginBottom: 20}}
         showsVerticalScrollIndicator={false}
       />
-      
+      <View style={{height:70}}/>
 
       <UIFab onPress={resetModal}/>
 
@@ -116,7 +115,7 @@ export default function ProjectScreen() {
           onPress={onCreateProject}
         />
       </Modal>
-    </View>
+    </KeyboardAvoidingView>
    
   );
 }

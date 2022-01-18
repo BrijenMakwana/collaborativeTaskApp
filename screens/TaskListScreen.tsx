@@ -172,7 +172,7 @@ export default function TaskListScreen() {
 
   return (
     
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
       {/* title of the project */}
       
       <Text style={styles.title}>{title}</Text>
@@ -239,8 +239,10 @@ export default function TaskListScreen() {
           <TaskListItem taskListItem={item} onSubmit={createNewTask}/>
         }
         keyExtractor={item=>item._id}
-        style={{marginBottom: 10}}
+        //style={{marginBottom: 10}}
+        showsVerticalScrollIndicator={false}
       />
+      <View style={{height:85}}/>
 
       {/* fab component for adding new task */}
       <UIFab onPress={resetModal}/>
@@ -279,7 +281,7 @@ export default function TaskListScreen() {
         />
       </Modal>
       
-    </View>
+    </KeyboardAvoidingView>
   
   );
 }
