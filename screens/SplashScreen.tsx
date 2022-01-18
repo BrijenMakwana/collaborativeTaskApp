@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View,ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View,ActivityIndicator, Dimensions, Platform, Linking } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -8,8 +8,21 @@ const SplashScreen = () => {
 
     const navigation = useNavigation();
 
-    useEffect(() => {
+    const isOnMobileWeb = () =>{
+        if(Platform.OS === "web")
+        {
+            const windowWidth = Dimensions.get('window').width;
+            if(windowWidth < 900){
+                
+                Linking.openURL("https://play.google.com/store/apps/details?id=com.brijenmakwana.eggTimer");
+            }
+            console.log(windowWidth);
+        }
+        
+    }
 
+    useEffect(() => {
+        isOnMobileWeb();
         const checkUser = async () =>{
             if(await isAuthenticated()){
                 navigation.reset(

@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Platform.OS === "web" ? "40%" : "100%",
     alignSelf: "center",
-    padding: 5,
+    //padding: 5,
     
   },
  

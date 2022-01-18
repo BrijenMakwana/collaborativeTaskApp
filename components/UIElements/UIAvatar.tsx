@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo,MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, Image, Pressable, View, Modal, Alert, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
@@ -107,7 +107,15 @@ const UIAvatar = (props: UIAvatarProps) => {
                 {userEmail}
               </Text>
             </View>
-            
+            <Pressable
+              style={styles.delete}  
+            >
+              <MaterialIcons 
+                name="delete" 
+                size={24} 
+                color={Colors[colorScheme].tint}
+              />
+            </Pressable>
             
           </View>
       </Modal>
@@ -132,7 +140,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 300,
         width: Platform.OS === "web" ? "20%" : "60%",
-        height: Platform.OS === "web" ? "40%" : "30%",
+        height: Platform.OS === "web" ? "40%" : "35%",
         left: Platform.OS === "web" ? "40%" : 80,
         borderRadius: 10,
         backgroundColor: "#212121",
@@ -143,11 +151,14 @@ const styles = StyleSheet.create({
     userInfo: {
         alignItems: "center",
         justifyContent: "center",
-        padding: 20,
-        flex: 1
+        flex: 1,
       },
     close:{
         alignSelf: "flex-end",
+        width: "20%",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 4
       },
     userAvatar:{
         height: 100,
@@ -172,5 +183,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
         width: "100%",
         textAlign: "center"
+      },
+      delete:{
+        alignSelf: "center",
+        width: "20%",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 4,
+        
+
       }
 })
