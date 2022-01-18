@@ -183,7 +183,7 @@ export default function TaskListScreen() {
       <View style={styles.collaborators}>
         <FlatList
           data={users}
-          renderItem={({item})=><UIAvatar _id={item._id}/>}
+          renderItem={({item})=><UIAvatar _id={item._id} projectId={route.params.projectId}/>}
           keyExtractor={item=>item._id}
           horizontal
           showsHorizontalScrollIndicator={false}

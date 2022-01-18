@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { Entypo,MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, Image, Pressable, View, Modal, Alert, Platform } from 'react-native';
@@ -7,6 +7,7 @@ import useColorScheme from '../../hooks/useColorScheme';
 
 export type UIAvatarProps = {
     _id: string;
+    projectId: string;
 }
 
 // get user graphQL query
@@ -21,6 +22,13 @@ const GET_USER = gql`
     }
 `;
 
+// delete user from project mutation
+
+const DELETE_USER_FROM_PROJECT = gql`
+  mutation DeleteProject($projectId: String!, $userId: String!) {
+    deleteUserFromProject(projectId: $projectId, userId: $userId)
+  }`;
+
 
 const UIAvatar = (props: UIAvatarProps) => {
     const colorScheme = useColorScheme();
@@ -32,6 +40,9 @@ const UIAvatar = (props: UIAvatarProps) => {
 
     // get user query
     const {data,error,loading} = useQuery(GET_USER,{variables:{_id: props._id}});
+
+    // delete user from project mutation
+    const [deleteUserFromProject] = useMutation(DELETE_USER_FROM_PROJECT);
     
     useEffect(() => {
       if(error){
@@ -46,13 +57,21 @@ const UIAvatar = (props: UIAvatarProps) => {
         setUserEmail(data.getUser.email);
       }
     }, [data])
+
+    const deleteUser = () =>{
+      deleteUserFromProject({variables:{
+        projectId: props.projectId,
+        userId: props._id
+      }})
+      setModalVisible(false);
+    }
     
     return (
       <View>
         <Pressable onPress={()=>setModalVisible(true)}>
           <Image
               source={{
-                uri: userAvatar || "https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                uri: userAvatar || "https://images.unsplash.com/photo-1511553677255-ba939e5537e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
               }}
               style={[styles.image,{
                 borderColor: Colors[colorScheme].tint
@@ -83,7 +102,7 @@ const UIAvatar = (props: UIAvatarProps) => {
               {/* user avatar big */}
               <Image
                 source={{
-                  uri: userAvatar || "https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                  uri: userAvatar || "https://images.unsplash.com/photo-1511553677255-ba939e5537e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
                 }}
                 style={[styles.userAvatar,{
                   borderColor: Colors[colorScheme].tint
@@ -107,8 +126,11 @@ const UIAvatar = (props: UIAvatarProps) => {
                 {userEmail}
               </Text>
             </View>
+
+            {/* delet user button */}
             <Pressable
-              style={styles.delete}  
+              style={styles.delete}
+              onPress={deleteUser}  
             >
               <MaterialIcons 
                 name="delete" 
