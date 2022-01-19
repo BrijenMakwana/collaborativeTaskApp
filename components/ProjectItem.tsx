@@ -150,7 +150,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         padding: 10,
         marginTop : 5,
-        width: "100%",
+        width: Platform.OS === "web" ? "40%" : "100%",
+        alignSelf: "center"
        
     },
     iconContainer:{

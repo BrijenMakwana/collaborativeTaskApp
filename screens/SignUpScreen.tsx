@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Alert, StyleSheet, View,Image } from 'react-native';
 import UIButton from '../components/UIElements/UIButton';
 import UITextInput from '../components/UIElements/UITextInput';
 
@@ -86,6 +86,12 @@ const SignUpScreen = () => {
         <View style={[styles.container,{
             backgroundColor: Colors[colorScheme].background
         }]}>
+            {/* register */}
+            <Image
+                style={styles.image}
+                source={require('/Users/brijenmakwana/collaborativeTaskApp/assets/images/Register.png')}
+                resizeMode= "contain"
+            />
             <UITextInput 
                 placeholder="Name" 
                 secure={false} 
@@ -123,5 +129,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center"
+    },
+    image:{
+        width: "70%",
+        height: "12%",
+        marginVertical: 20
     }
 })
