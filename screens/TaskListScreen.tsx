@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, Alert, FlatList, KeyboardAvoidingView, Modal, StyleSheet, TextInput, Pressable} from 'react-native';
+import { Image, Alert, FlatList, KeyboardAvoidingView, Modal, StyleSheet, TextInput, Pressable, ActivityIndicator} from 'react-native';
 import TaskListItem from '../components/TaskListItem';
 
 
@@ -179,6 +179,7 @@ export default function TaskListScreen() {
     <View style={styles.container}>
       {/* title of the project */}
       
+      {loading && <ActivityIndicator size="large" color={Colors[colorScheme].tint} style={{padding: 50}}/>}
       <Text style={styles.title}>{title}</Text>
 
       {/* collaborators avatars */}

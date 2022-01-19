@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet } from 'react-native';
 import ProjectItem from '../components/ProjectItem';
 import { Text, View } from '../components/Themed';
 import { useQuery,gql, useMutation } from '@apollo/client';
@@ -90,8 +90,9 @@ export default function ProjectScreen() {
     <KeyboardAvoidingView behavior="padding" style={[styles.container,{
       opacity: modalVisible ? 0.4 : 1
     }]}>
+      {loading && <ActivityIndicator size="large" color={Colors[colorScheme].tint} style={{padding: 50}}/>}
       {/* project list */}
-    
+
       <FlatList
         data={projects}
         renderItem={({item})=><ProjectItem project={item} onRefetch={refetchProjects}/>}
@@ -107,10 +108,6 @@ export default function ProjectScreen() {
         animationType="slide"
         transparent
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
        
       >
         <UIPrompt

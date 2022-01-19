@@ -36,7 +36,7 @@ export default Button
 const styles = StyleSheet.create({
     buttonContainer:{
         padding:12,
-        width: Platform.OS === 'web' ? "15%" : "80%",
+        width: Platform.OS === 'web' ? 300 : "80%",
         alignItems: "center",
         justifyContent: "center",
         marginTop: 30,

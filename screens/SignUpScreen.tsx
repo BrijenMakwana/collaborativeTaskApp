@@ -7,7 +7,10 @@ import { useMutation,gql } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Colors from '../constants/Colors';
+import useColorScheme from '../hooks/useColorScheme';
 
+// sign up mutation
 const SIGN_UP_MUTATION =gql`
     mutation signUp($name: String!
         $email: String!
@@ -40,10 +43,12 @@ const SignUpScreen = () => {
     const [avatar,setAvatar] = useState("");
 
     const navigation = useNavigation();
+    const colorScheme = useColorScheme();
 
     // mutation[0]: function to trigger the mutation
     // mutation[1]: result object {data ,error ,loading}
 
+    // sign up mutation
     const [signUp,{ data , error , loading }] = useMutation(SIGN_UP_MUTATION);
 
     if(error){
@@ -68,7 +73,7 @@ const SignUpScreen = () => {
         }
         
           
-        //console.log(data);
+        
        
     }
 
@@ -98,12 +103,12 @@ const SignUpScreen = () => {
                 onChangeText={(text)=>setPassword(text)}
             />
             <UITextInput 
-                placeholder="Avatar" 
+                placeholder="Avatar (Optional)" 
                 secure={false} 
                 value={avatar} 
                 onChangeText={(text)=>setAvatar(text)}
             />
-            {loading && <ActivityIndicator/>}
+            {loading && <ActivityIndicator size="large" color={Colors[colorScheme].tint} style={{padding: 50}}/>}
             <UIButton title="Sign Up" onPress={onSubmit} type="outline"/>
         </View>
     )
