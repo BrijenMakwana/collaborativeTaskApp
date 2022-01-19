@@ -13,6 +13,7 @@ export type TaskListItemProps ={
         isCompleted: boolean;
     },
     onSubmit: () => void;
+    onRefetch: () => void;
    
 }
 
@@ -76,14 +77,16 @@ const TaskListItem = (props: TaskListItemProps ) => {
      const removeTask = ({nativeEvent}) =>{
 
         if(nativeEvent.key === "Backspace" && content === ""){
-            console.warn("removed");
+            
             deleteTaskList({
                 variables:{
                     _id: props.taskListItem._id
                 }
             });
-            //navigation.navigate("Project");
+           
         }
+        // refetch the tasklist
+        props.onRefetch();
     }
 
 

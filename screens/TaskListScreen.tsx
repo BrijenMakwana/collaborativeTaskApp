@@ -77,7 +77,7 @@ export default function TaskListScreen() {
   const route = useRoute();
 
   // query for getting tasklists in a project
-  const { data, error, loading } = useQuery(GET_PROJECT,{variables: {_id: route.params.projectId}});
+  const { data, error, loading, refetch } = useQuery(GET_PROJECT,{variables: {_id: route.params.projectId}});
 
 
   // mutation for creating a new tasklist
@@ -170,6 +170,10 @@ export default function TaskListScreen() {
     setNewUser("");
   }
 
+  const refetchTaskList = () =>{
+    refetch();
+  }
+
   return (
     
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -183,7 +187,7 @@ export default function TaskListScreen() {
       <View style={styles.collaborators}>
         <FlatList
           data={users}
-          renderItem={({item})=><UIAvatar _id={item._id} projectId={route.params.projectId}/>}
+          renderItem={({item})=><UIAvatar _id={item._id} projectId={route.params.projectId} onRefetch={refetchTaskList}/>}
           keyExtractor={item=>item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -236,7 +240,7 @@ export default function TaskListScreen() {
       <FlatList
         data={taskLists}
         renderItem={({item,index})=>
-          <TaskListItem taskListItem={item} onSubmit={createNewTask}/>
+          <TaskListItem taskListItem={item} onSubmit={createNewTask} onRefetch={refetchTaskList}/>
         }
         keyExtractor={item=>item._id}
         //style={{marginBottom: 10}}

@@ -8,6 +8,7 @@ import useColorScheme from '../../hooks/useColorScheme';
 export type UIAvatarProps = {
     _id: string;
     projectId: string;
+    onRefetch: () => void;
 }
 
 // get user graphQL query
@@ -58,12 +59,14 @@ const UIAvatar = (props: UIAvatarProps) => {
       }
     }, [data])
 
+    // delete user from project
     const deleteUser = () =>{
       deleteUserFromProject({variables:{
         projectId: props.projectId,
         userId: props._id
       }})
       setModalVisible(false);
+      props.onRefetch();
     }
     
     return (
