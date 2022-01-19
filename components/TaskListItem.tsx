@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import CheckBox from './CheckBox';
@@ -83,10 +83,16 @@ const TaskListItem = (props: TaskListItemProps ) => {
                     _id: props.taskListItem._id
                 }
             });
+            // refetch the tasklist
+            props.onRefetch();
+
+            // toast message only in Android
+            if(Platform.OS === "android"){
+                ToastAndroid.show("Task Deleted", ToastAndroid.SHORT);
+            }
            
         }
-        // refetch the tasklist
-        props.onRefetch();
+        
     }
 
 

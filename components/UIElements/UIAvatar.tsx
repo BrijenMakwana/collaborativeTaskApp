@@ -1,7 +1,7 @@
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { Entypo,MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, Image, Pressable, View, Modal, Alert, Platform } from 'react-native';
+import { StyleSheet, Text, Image, Pressable, View, Modal, Alert, Platform,ToastAndroid } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 
@@ -67,6 +67,10 @@ const UIAvatar = (props: UIAvatarProps) => {
       }})
       setModalVisible(false);
       props.onRefetch();
+      if(Platform.OS === "android"){
+        ToastAndroid.show("User Deleted", ToastAndroid.SHORT);
+      }
+      
     }
     
     return (

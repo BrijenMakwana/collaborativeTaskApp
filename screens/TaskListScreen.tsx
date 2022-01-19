@@ -176,7 +176,7 @@ export default function TaskListScreen() {
 
   return (
     
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+    <View style={styles.container}>
       {/* title of the project */}
       
       <Text style={styles.title}>{title}</Text>
@@ -285,7 +285,7 @@ export default function TaskListScreen() {
         />
       </Modal>
       
-    </KeyboardAvoidingView>
+    </View>
   
   );
 }
