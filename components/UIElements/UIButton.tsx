@@ -17,7 +17,7 @@ const Button = (props: UIButtonProps) => {
         // styles applies according to solid or outline button type
         <Pressable 
             style={[styles.buttonContainer,{
-                backgroundColor: props.type === "solid" ? Colors[colorScheme].tint : "",
+                backgroundColor: props.type === "solid" ? Colors[colorScheme].tint : Colors[colorScheme].background,
                 borderWidth: props.type === "solid" ? 0 : 1,
                 borderColor: Colors[colorScheme].tint
             }]} 
@@ -25,8 +25,11 @@ const Button = (props: UIButtonProps) => {
         >
             <Text 
                 style={[styles.buttonName,{
-                    color: props.type === "solid" ? "#212121" : Colors[colorScheme].tint
-                }]}>{props.title}</Text>
+                    color: props.type === "solid" ? Colors[colorScheme].background : Colors[colorScheme].tint
+                }]}
+            >
+                {props.title}
+            </Text>
         </Pressable>
     )
 }

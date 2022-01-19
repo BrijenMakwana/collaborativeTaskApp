@@ -17,7 +17,7 @@ const UIFab = (props: UIFabProps ) => {
         }]}
         onPress={props.onPress}
       >
-        <Entypo name="plus" size={28} color="#212121" />
+        <Entypo name="plus" size={28} color={Colors[colorScheme].background}/>
       </Pressable>
     )
 }

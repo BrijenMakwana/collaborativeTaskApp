@@ -106,7 +106,7 @@ const ProjectItem = (props: ProjectItemProps) => {
                 onPress={goToTaskLists}
                 onLongPress={deleteThisProject}
             >
-                <Ionicons name="md-document-outline" size={24} color="#212121" />
+                <Ionicons name="md-document-outline" size={24} color={Colors[colorScheme].background} />
             </Pressable>
 
             {/* project content */}

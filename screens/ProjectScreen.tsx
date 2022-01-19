@@ -126,9 +126,9 @@ export default function ProjectScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: Platform.OS === "web" ? "70%" : "100%",
+    width: "100%",
     alignSelf: "center",
-    //padding: 5,
+    backgroundColor: "#fff"
     
   },
  

@@ -82,7 +82,9 @@ const SignInScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,{
+            backgroundColor: Colors[colorScheme].background
+        }]}>
             {/* TaskBri logo */}
             <Image
                 style={styles.logo}
@@ -121,11 +123,11 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
     logo:{
         width: "70%",
-        height: "10%",
+        height: "12%",
         marginVertical: 20
     },
     createNewAccountText:{

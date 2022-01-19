@@ -19,7 +19,9 @@ const UITextInput = (props: UITextInputProps) => {
             borderBottomColor: Colors[colorScheme].tint
         }]}>
             <TextInput 
-                style={styles.input}
+                style={[styles.input,{
+                    color: Colors[colorScheme].text
+                }]}
                 placeholder={props.placeholder}
                 placeholderTextColor="grey"
                 secureTextEntry={props.secure}
@@ -44,7 +46,6 @@ const styles = StyleSheet.create({
     },
     input:{
         padding: 10,
-        color: "white",
         fontSize: 17,
         width: "100%",
         

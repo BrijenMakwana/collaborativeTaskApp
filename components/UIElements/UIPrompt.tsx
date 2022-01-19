@@ -20,7 +20,10 @@ const UIPrompt = (props: UIPromptProps ) => {
     //const [modalVisible, setModalVisible] = useState(false);
 
     return (
-        <View style={styles.modal}>
+        <View style={[styles.modal,{
+            backgroundColor: Colors[colorScheme].background,
+            borderColor: Colors[colorScheme].tint
+        }]}>
             {/* close modal */}
             <Pressable 
                 style={styles.close}
@@ -63,8 +66,8 @@ const styles = StyleSheet.create({
         height: 230,
         left: Platform.OS === "web" ? "35%" : 20,
         borderRadius: 10,
-        backgroundColor: "#212121",
-        flex: 1
+        flex: 1,
+        borderWidth: 2
        },
       close:{
         marginRight: 30,

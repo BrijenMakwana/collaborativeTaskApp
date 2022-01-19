@@ -64,9 +64,9 @@ function RootNavigator() {
 
   return (
     <Stack.Navigator screenOptions={{
-      headerTintColor: Colors[colorScheme].tint,
+      headerTintColor: Colors[colorScheme].background,
       headerStyle:{
-        backgroundColor: "#212121"
+        backgroundColor: Colors[colorScheme].tint
         
       }
     }}>
@@ -83,7 +83,7 @@ function RootNavigator() {
         headerBackTitleVisible: false,
         headerRight:()=>(
           <Pressable onPress={signOut}>
-            <MaterialCommunityIcons name="logout" size={24} color={Colors[colorScheme].tint} />
+            <MaterialCommunityIcons name="logout" size={24} color={Colors[colorScheme].background} />
           </Pressable>
         )
       }}/>

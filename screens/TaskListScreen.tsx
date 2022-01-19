@@ -176,11 +176,15 @@ export default function TaskListScreen() {
 
   return (
     
-    <View style={styles.container}>
+    <View style={[styles.container,{
+      opacity: modalVisible || addUserModal ? 0.4 : 1
+    }]}>
       {/* title of the project */}
       
       {loading && <ActivityIndicator size="large" color={Colors[colorScheme].tint} style={{padding: 50}}/>}
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title,{
+        color: Colors[colorScheme].text
+      }]}>{title}</Text>
 
       {/* collaborators avatars */}
       { users.length>1 ?
@@ -195,7 +199,7 @@ export default function TaskListScreen() {
           ListHeaderComponent={
             <Pressable 
               style={[styles.peopleIcon,{
-                backgroundColor: Colors[colorScheme].seperator,
+                backgroundColor: Colors[colorScheme].background,
                 borderColor: Colors[colorScheme].tint
             }]}
               onPress={resetAddUserModal}
@@ -210,7 +214,7 @@ export default function TaskListScreen() {
                 {/* number of users */}
                 <Text  
                   style={[styles.numberOfUsersText,{
-                    color: Colors[colorScheme].seperator,
+                    color: Colors[colorScheme].background,
                       }]}
                 >
                   {users.length}
@@ -227,7 +231,7 @@ export default function TaskListScreen() {
       (
         <Pressable 
           style={[styles.peopleIcon,{
-            backgroundColor: Colors[colorScheme].seperator,
+            backgroundColor: Colors[colorScheme].background,
             borderColor: Colors[colorScheme].tint
             }]}
           onPress={resetAddUserModal}

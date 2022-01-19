@@ -83,7 +83,9 @@ const SignUpScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,{
+            backgroundColor: Colors[colorScheme].background
+        }]}>
             <UITextInput 
                 placeholder="Name" 
                 secure={false} 

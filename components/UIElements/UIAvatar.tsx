@@ -93,7 +93,10 @@ const UIAvatar = (props: UIAvatarProps) => {
           transparent
           visible={modalVisible}
         >
-          <View style={styles.modal}>
+          <View style={[styles.modal,{
+            backgroundColor: Colors[colorScheme].lightTint,
+            borderColor: Colors[colorScheme].tint
+          }]}>
             <Pressable 
               style={styles.close}
               onPress={()=>setModalVisible(false)}  
@@ -118,7 +121,9 @@ const UIAvatar = (props: UIAvatarProps) => {
               />
 
               {/* user name */}
-              <Text style={styles.userName}>
+              <Text style={[styles.userName,{
+                color: Colors[colorScheme].text
+              }]}>
                 {userName}
               </Text>
 
@@ -172,7 +177,7 @@ const styles = StyleSheet.create({
         height: Platform.OS === "web" ? "40%" : "35%",
         left: Platform.OS === "web" ? "40%" : 80,
         borderRadius: 10,
-        backgroundColor: "#212121",
+        borderWidth: 2,
         padding: 10,
         flex: 1,
         
@@ -199,7 +204,6 @@ const styles = StyleSheet.create({
       },
     userName:{
         fontSize: 20,
-        color: "#fff",
         fontWeight: "bold",
         marginTop: 20,
         width: "100%",
@@ -207,7 +211,6 @@ const styles = StyleSheet.create({
       },
     userEmail:{
         fontSize: 17,
-        color: "#fff",
         fontWeight: "400",
         marginTop: 10,
         width: "100%",
