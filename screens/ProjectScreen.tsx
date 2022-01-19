@@ -39,7 +39,7 @@ export default function ProjectScreen() {
   const [projects, setProjects] = useState([]);
   const [newProjectTitle,setNewProjectTitle] = useState("");
 
-  const { data, error, loading } = useQuery(MY_PROJECTS);
+  const { data, error, loading, refetch } = useQuery(MY_PROJECTS);
 
   const [createProject] = useMutation(CREATE_PROJECT,{
     refetchQueries: [
@@ -78,6 +78,12 @@ export default function ProjectScreen() {
      // setting title back to empty string
      setNewProjectTitle("");
   }
+
+  // refetch all projects
+  const refetchProjects = () => {
+    refetch
+    ();
+  }
  
   return (
     
@@ -88,7 +94,7 @@ export default function ProjectScreen() {
     
       <FlatList
         data={projects}
-        renderItem={({item})=><ProjectItem project={item}/>}
+        renderItem={({item})=><ProjectItem project={item} onRefetch={refetchProjects}/>}
         keyExtractor={item=>item._id}
         showsVerticalScrollIndicator={false}
       />

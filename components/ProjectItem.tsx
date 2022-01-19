@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
@@ -16,8 +16,10 @@ export type ProjectItemProps = {
         createdAt: string;
         
     }
+    onRefetch: () => void;
 }
 
+// update project mutation
 const UPDATE_PROJECT_MUTATION = gql`
     mutation UpdateProject($_id: String!, $title: String!) {
         updateProject(_id: $_id, title: $title) {
@@ -28,12 +30,24 @@ const UPDATE_PROJECT_MUTATION = gql`
     }
     `;
 
+// delete project mutation
+
+const DELETE_PROJECT = gql`
+    mutation DeleteProject($_id: String!) {
+        deleteProject(_id: $_id)
+    }
+    `;
+
 const ProjectItem = (props: ProjectItemProps) => {
     const colorScheme = useColorScheme();
 
     const [title, setTitle] = useState(props.project.title);
 
+    // update project mutation
     const [updateProject] = useMutation(UPDATE_PROJECT_MUTATION);
+
+    // delete project mutation
+    const [deleteProject] = useMutation(DELETE_PROJECT);
 
     const navigation = useNavigation();
 
@@ -54,16 +68,46 @@ const ProjectItem = (props: ProjectItemProps) => {
             projectId: props.project._id
         })
     }
+
+    // delete project
+    const deleteThisProject = () =>{
+
+        Alert.alert("Warning","Are you sure you want to delete this project",[
+            {
+                text: "Yes",
+                onPress: () =>{
+                    deleteProject({variables:{
+                        _id: props.project._id
+                    }})
+                    props.onRefetch();
+            
+                    // toast message only in Android
+                    if(Platform.OS === "android"){
+                        ToastAndroid.show("Project Deleted", ToastAndroid.SHORT);
+                    }
+                }
+            },
+            {
+                text: "Cancel",
+                onPress: () => {}
+            }
+        ])
+        
+    }
    
     return (
-        <Pressable style={styles.container} onPress={goToTaskLists}>
+        <View style={styles.container} >
             {/* file icon */}
-            <View 
+            <Pressable 
                 style={[styles.iconContainer,{
-                backgroundColor: Colors[colorScheme].tint
-            }]}>
+                    backgroundColor: Colors[colorScheme].tint
+                    }]
+                }
+                onPress={goToTaskLists}
+                onLongPress={deleteThisProject}
+            >
                 <Ionicons name="md-document-outline" size={24} color="#212121" />
-            </View>
+            </Pressable>
 
             {/* project content */}
             <View  
@@ -94,7 +138,7 @@ const ProjectItem = (props: ProjectItemProps) => {
                 </Text>
             </View>
             
-        </Pressable>
+        </View>
     )
 }
 
