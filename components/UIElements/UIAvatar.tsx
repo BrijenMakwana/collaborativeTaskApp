@@ -43,13 +43,23 @@ const UIAvatar = (props: UIAvatarProps) => {
     const {data,error,loading} = useQuery(GET_USER,{variables:{_id: props._id}});
 
     // delete user from project mutation
-    const [deleteUserFromProject] = useMutation(DELETE_USER_FROM_PROJECT);
+    const [deleteUserFromProject,{error: deleteUserError}] = useMutation(DELETE_USER_FROM_PROJECT);
     
     useEffect(() => {
       if(error){
         Alert.alert("Error fatching user data",error.message);
       }
+      if(deleteUserError){
+        Alert.alert(deleteUserError.message)
+      }
     }, [error])
+
+    useEffect(() => {
+      
+      if(deleteUserError){
+        Alert.alert(deleteUserError.message)
+      }
+    }, [deleteUserError])
 
     useEffect(() => {
       if(data){
@@ -61,12 +71,14 @@ const UIAvatar = (props: UIAvatarProps) => {
 
     // delete user from project
     const deleteUser = () =>{
+      
       deleteUserFromProject({variables:{
         projectId: props.projectId,
         userId: props._id
       }})
-      setModalVisible(false);
       props.onRefetch();
+      setModalVisible(false);
+      
       if(Platform.OS === "android"){
         ToastAndroid.show("User Deleted", ToastAndroid.SHORT);
       }
