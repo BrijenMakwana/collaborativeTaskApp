@@ -12,6 +12,7 @@ import UITextInput from '../components/UIElements/UITextInput';
 import UIButton from '../components/UIElements/UIButton';
 import UIFab from '../components/UIElements/UIFab';
 import UIPrompt from '../components/UIElements/UIPrompt';
+import EmptyList from '../components/EmptyList';
 
 const MY_PROJECTS = gql`
   query MyProjects {
@@ -38,6 +39,8 @@ export default function ProjectScreen() {
 
   const [projects, setProjects] = useState([]);
   const [newProjectTitle,setNewProjectTitle] = useState("");
+
+  const [refreshing, setRefreshing] = useState(false);
 
   const { data, error, loading, refetch } = useQuery(MY_PROJECTS);
 
@@ -81,14 +84,20 @@ export default function ProjectScreen() {
 
   // refetch all projects
   const refetchProjects = () => {
-    refetch
-    ();
+
+    setRefreshing(true);
+    refetch();
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 2000);
+    
   }
  
   return (
     
     <KeyboardAvoidingView behavior="padding" style={[styles.container,{
-      opacity: modalVisible ? 0.4 : 1
+      opacity: modalVisible ? 0.4 : 1,
+      backgroundColor: Colors[colorScheme].background
     }]}>
       {loading && <ActivityIndicator size="large" color={Colors[colorScheme].tint} style={{padding: 50}}/>}
       {/* project list */}
@@ -98,6 +107,9 @@ export default function ProjectScreen() {
         renderItem={({item})=><ProjectItem project={item} onRefetch={refetchProjects}/>}
         keyExtractor={item=>item._id}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={<EmptyList text="Currently you don't have any projects"/>}
+        onRefresh={refetchProjects}
+        refreshing={refreshing}
       />
       <View style={{height:70}}/>
 
@@ -126,10 +138,7 @@ export default function ProjectScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-    backgroundColor: "#fff",
-    
-    
+    width: "100%"
   },
  
 });

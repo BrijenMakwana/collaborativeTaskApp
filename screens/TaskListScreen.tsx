@@ -13,6 +13,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import UIAvatar from '../components/UIElements/UIAvatar';
 
 import { Ionicons } from '@expo/vector-icons';
+import EmptyList from '../components/EmptyList';
 
 
 // get project details for tasklists
@@ -70,7 +71,9 @@ export default function TaskListScreen() {
   const [newTask,setNewTask] = useState("");
 
   const [addUserModal,setAddUserModal] = useState(false);
-  const [newUser,setNewUser] = useState("")
+  const [newUser,setNewUser] = useState("");
+
+  const [refreshing, setRefreshing] = useState(false);
 
   
 
@@ -171,7 +174,11 @@ export default function TaskListScreen() {
   }
 
   const refetchTaskList = () =>{
+    setRefreshing(true);
     refetch();
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 2000);
   }
 
   return (
@@ -248,8 +255,10 @@ export default function TaskListScreen() {
           <TaskListItem taskListItem={item} onSubmit={createNewTask} onRefetch={refetchTaskList}/>
         }
         keyExtractor={item=>item._id}
-        //style={{marginBottom: 10}}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={<EmptyList text="There are no tasks yet"/>}
+        onRefresh={refetchTaskList}
+        refreshing={refreshing}
       />
       <View style={{height:85}}/>
 

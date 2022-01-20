@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
 import { useNavigation } from '@react-navigation/native';
 import useColorScheme from '../hooks/useColorScheme';
@@ -94,6 +94,15 @@ const ProjectItem = (props: ProjectItemProps) => {
         ])
         
     }
+
+    // delet project in web
+    const deleteThisProjectWeb = () =>{
+        deleteProject({variables:{
+            _id: props.project._id
+        }})
+        props.onRefetch();
+        alert("Project is deleted");
+    }
    
     return (
         <View style={styles.container} >
@@ -108,6 +117,8 @@ const ProjectItem = (props: ProjectItemProps) => {
             >
                 <Ionicons name="md-document-outline" size={24} color={Colors[colorScheme].background} />
             </Pressable>
+
+            
 
             {/* project content */}
             <View  
@@ -137,6 +148,24 @@ const ProjectItem = (props: ProjectItemProps) => {
                     {moment(props.project.createdAt).startOf('hour').fromNow()}
                 </Text>
             </View>
+            {/* only for web, delete project */}
+            {(Platform.OS === "web") &&
+            <Pressable 
+                style={[styles.iconContainer,{
+                    backgroundColor: Colors[colorScheme].background,
+                    marginLeft: 10
+                    }]
+                }
+                onPress={deleteThisProjectWeb}
+                
+            >
+                <MaterialIcons 
+                    name="delete" 
+                    size={24} 
+                    color={Colors[colorScheme].tint}
+                />
+                </Pressable>
+            }
             
         </View>
     )
