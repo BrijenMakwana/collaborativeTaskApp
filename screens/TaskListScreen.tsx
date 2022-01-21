@@ -80,7 +80,7 @@ export default function TaskListScreen() {
   const route = useRoute();
 
   // query for getting tasklists in a project
-  const { data, error, loading, refetch } = useQuery(GET_PROJECT,{variables: {_id: route.params.projectId}});
+  const { data, error, loading, refetch } = useQuery(GET_PROJECT,{variables: {_id: route.params.projectId,pollInterval: 500}});
 
 
   // mutation for creating a new tasklist

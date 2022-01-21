@@ -42,7 +42,7 @@ export default function ProjectScreen() {
 
   const [refreshing, setRefreshing] = useState(false);
 
-  const { data, error, loading, refetch } = useQuery(MY_PROJECTS);
+  const { data, error, loading, refetch } = useQuery(MY_PROJECTS,{pollInterval: 500});
 
   const [createProject] = useMutation(CREATE_PROJECT,{
     refetchQueries: [

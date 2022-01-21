@@ -78,7 +78,15 @@ const SignInScreen = () => {
 
 
     const onSubmit = () =>{
-        signIn({variables:{ email , password }})
+        // if email or password is empty..show alert
+        if(email === "" || password === "")
+        {
+            alert("Please fill in all the fields")
+        }
+        else{
+            signIn({variables:{ email , password }})
+        }
+        
     }
 
     return (

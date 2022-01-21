@@ -40,7 +40,7 @@ const UIAvatar = (props: UIAvatarProps) => {
     const [userEmail,setUserEmail] = useState("");
 
     // get user query
-    const {data,error,loading} = useQuery(GET_USER,{variables:{_id: props._id}});
+    const {data,error,loading} = useQuery(GET_USER,{variables:{_id: props._id},pollInterval: 500});
 
     // delete user from project mutation
     const [deleteUserFromProject,{error: deleteUserError}] = useMutation(DELETE_USER_FROM_PROJECT);
@@ -49,9 +49,7 @@ const UIAvatar = (props: UIAvatarProps) => {
       if(error){
         Alert.alert("Error fatching user data",error.message);
       }
-      if(deleteUserError){
-        Alert.alert(deleteUserError.message)
-      }
+      
     }, [error])
 
     useEffect(() => {
@@ -81,6 +79,8 @@ const UIAvatar = (props: UIAvatarProps) => {
       
       if(Platform.OS === "android"){
         ToastAndroid.show("User Deleted", ToastAndroid.SHORT);
+      }else{
+        alert("User Deleted");
       }
       
     }
