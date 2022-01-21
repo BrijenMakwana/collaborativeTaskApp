@@ -4,7 +4,7 @@ Description:
 
 TaskBri is a Collaborative Task management System. As the name suggests, user can create a tasklist and check/unCheck it based on the completion. The biggest feature of this sytem is that user can add other users to a tasklist so that they also can see the content.
 
-TaskBri URL : https://taskbri.netlify.app/
+TaskBri URL : https://www.taskbri.com/
 
 Features: 
 

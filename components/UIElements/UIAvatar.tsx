@@ -40,7 +40,7 @@ const UIAvatar = (props: UIAvatarProps) => {
     const [userEmail,setUserEmail] = useState("");
 
     // get user query
-    const {data,error,loading} = useQuery(GET_USER,{variables:{_id: props._id},pollInterval: 500});
+    const {data,error,loading} = useQuery(GET_USER,{variables:{_id: props._id},pollInterval: 2000});
 
     // delete user from project mutation
     const [deleteUserFromProject,{error: deleteUserError}] = useMutation(DELETE_USER_FROM_PROJECT);
