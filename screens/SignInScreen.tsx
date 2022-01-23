@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, Image, View, Alert, ActivityIndicator } from 'react-native';
+import { Pressable, StyleSheet, Text, Image, View, Alert, ActivityIndicator, Platform } from 'react-native';
 import UIButton from '../components/UIElements/UIButton';
 import UITextInput from '../components/UIElements/UITextInput';
 import useColorScheme from '../hooks/useColorScheme';
@@ -89,6 +89,10 @@ const SignInScreen = () => {
         
     }
 
+    const forgetPassword = () =>{
+        navigation.navigate("ForgetPassword");
+    }
+
     return (
         <View style={[styles.container,{
             backgroundColor: Colors[colorScheme].background
@@ -115,12 +119,23 @@ const SignInScreen = () => {
             <UIButton title="Login" onPress={onSubmit} type="solid"/>
             
             <UIButton title="Sign Up" onPress={signUp} type="outline"/>
-            <Text style={[styles.createNewAccountText,{
-                color: Colors[colorScheme].tint
-                }]}
-            >
-                Sign up if you don't have a account
-            </Text>
+            <View style={styles.extraActionsContainer}>
+                <Text style={[styles.extraText,{
+                    color: Colors[colorScheme].tint
+                    }]}
+                >
+                    Sign up if you don't have a account
+                </Text>
+                <Pressable onPress={forgetPassword}>
+                    <Text style={[styles.extraText,{
+                        color: Colors[colorScheme].seperator
+                        }]}
+                    >
+                        Forget password?
+                    </Text>
+                </Pressable>
+            </View>
+            
         </View>
     )
 }
@@ -138,10 +153,17 @@ const styles = StyleSheet.create({
         height: "12%",
         marginVertical: 20
     },
-    createNewAccountText:{
-        fontSize: 12,
-        marginTop: 10,
-        fontWeight: "500"
+    extraActionsContainer:{
+        marginTop: 20,
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        height: 40,
+        width: Platform.OS === 'web' ? 300 : "80%",
+    },
+    extraText:{
+        fontSize: 14,
+        fontWeight: "500",
+       
     }
    
 })

@@ -19,6 +19,7 @@ export type RootStackParamList = {
   TaskList: undefined;
   SignIn: undefined;
   SignUp: undefined;
+  ForgetPassword: undefined;
   Splash: undefined;
 };
 

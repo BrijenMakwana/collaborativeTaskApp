@@ -25,6 +25,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import { gql, useMutation } from '@apollo/client';
+import ForgetPassword from '../screens/ForgetPassword';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -115,6 +116,10 @@ function RootNavigator() {
       <Stack.Screen name="SignUp" component={SignUpScreen} options={{
         title: "Sign Up"
       }} />
+      <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={{
+        title: "Change Password",
+        headerBackTitle: "Back"
+      }} />
       <Stack.Screen name="Project" component={ProjectScreen} options={{
         headerBackTitleVisible: false,
         headerRight:()=>(
@@ -123,11 +128,10 @@ function RootNavigator() {
           // </Pressable>
           <Pressable
             style={{
-              alignSelf: "center",
               alignItems: "center",
-              justifyContent: "space-between",
               padding: 5,
               flexDirection: "row",
+              marginRight: "1%"
               
             }}
             onPress={onDeleteAllProjects}
@@ -156,12 +160,10 @@ function RootNavigator() {
           // </Pressable>
           <Pressable
             style={{
-              alignSelf: "center",
               alignItems: "center",
-              justifyContent: "space-between",
               padding: 5,
               flexDirection: "row",
-              
+              marginRight: "1%"
             }}
             onPress={()=>onDeleteAllTasks(route.params.projectId)}
           >
