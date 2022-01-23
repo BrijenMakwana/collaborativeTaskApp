@@ -87,6 +87,7 @@ function RootNavigator() {
   // delete all projects function
   const onDeleteAllProjects = () =>{
     deleteAllProjects();
+    alert("You have deleted all your projects. Please Refresh to see the changes.");
   }
 
   // delete all tasks function
@@ -94,6 +95,7 @@ function RootNavigator() {
     deleteAllTasks({variables:{
       projectId
     }});
+    alert("You have deleted all your Tasks. Please Refresh to see the changes.");
   }
 
   return (
