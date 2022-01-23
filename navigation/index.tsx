@@ -3,12 +3,12 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName, Pressable,Text } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -24,6 +24,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import { gql, useMutation } from '@apollo/client';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -41,10 +42,31 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+// delete all projects mutation
+const DELETE_ALL_PROJECTS = gql`
+  mutation Mutation {
+    deleteAllProjects
+  }`;
+
+// delete all tasks mutation
+const DELETE_ALL_TASKS = gql`
+  mutation Mutation($projectId: String!) {
+    deleteAllTasks(projectId: $projectId)
+  }`;
+
+
+
 function RootNavigator() {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
 
+  // delete all projects mutation
+  const [deleteAllProjects] = useMutation(DELETE_ALL_PROJECTS);
+
+  // delete all tasks mutation
+  const [deleteAllTasks] = useMutation(DELETE_ALL_TASKS);
+
+  // user sign out
   const signOut = async () => {
     try {
       await AsyncStorage.removeItem('token').then(()=>{
@@ -61,6 +83,18 @@ function RootNavigator() {
     }
   
   } 
+
+  // delete all projects function
+  const onDeleteAllProjects = () =>{
+    deleteAllProjects();
+  }
+
+  // delete all tasks function
+  const onDeleteAllTasks = (projectId: string) =>{
+    deleteAllTasks({variables:{
+      projectId
+    }});
+  }
 
   return (
     <Stack.Navigator screenOptions={{
@@ -82,14 +116,70 @@ function RootNavigator() {
       <Stack.Screen name="Project" component={ProjectScreen} options={{
         headerBackTitleVisible: false,
         headerRight:()=>(
-          <Pressable onPress={signOut}>
-            <MaterialCommunityIcons name="logout" size={24} color={Colors[colorScheme].background} />
-          </Pressable>
+          // <Pressable onPress={signOut}>
+          //   <MaterialCommunityIcons name="logout" size={24} color={Colors[colorScheme].background} />
+          // </Pressable>
+          <Pressable
+            style={{
+              alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: 5,
+              flexDirection: "row",
+              
+            }}
+            onPress={onDeleteAllProjects}
+          >
+            <MaterialIcons 
+              name="delete" 
+              size={24} 
+              color={Colors[colorScheme].background}
+            />
+            <Text style={{
+              color: Colors[colorScheme].background,
+              marginLeft: 2,
+              textAlignVertical: "center"
+              }}
+            >
+              Delete All
+            </Text>
+        </Pressable>
         )
       }}/>
-      <Stack.Screen name="TaskList" component={TaskListScreen} options={{
+      <Stack.Screen name="TaskList" component={TaskListScreen} options= {({ route }) =>({
         headerBackTitle: "Back",
-        }} />
+        headerRight:() =>(
+          // <Pressable onPress={signOut}>
+          //   <MaterialCommunityIcons name="logout" size={24} color={Colors[colorScheme].background} />
+          // </Pressable>
+          <Pressable
+            style={{
+              alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: 5,
+              flexDirection: "row",
+              
+            }}
+            onPress={()=>onDeleteAllTasks(route.params.projectId)}
+          >
+            <MaterialIcons 
+              name="delete" 
+              size={24} 
+              color={Colors[colorScheme].background}
+            />
+            <Text style={{
+              color: Colors[colorScheme].background,
+              marginLeft: 2,
+              textAlignVertical: "center"
+              }}
+            >
+              Delete All
+            </Text>
+        </Pressable>
+        )
+        })} 
+      />
       
     </Stack.Navigator>
   );
