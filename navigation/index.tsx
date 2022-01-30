@@ -3,12 +3,12 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Entypo,MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+
 import { NavigationContainer, DefaultTheme, DarkTheme, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable,Text } from 'react-native';
+import { ColorSchemeName, Image, Modal, Platform, Pressable,Text, View } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -18,14 +18,14 @@ import SignUpScreen from '../screens/SignUpScreen';
 import SplashScreen from '../screens/SplashScreen';
 import TaskListScreen from '../screens/TaskListScreen';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import ForgetPassword from '../screens/ForgetPassword';
+import { useEffect, useState } from 'react';
+
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -57,9 +57,12 @@ const DELETE_ALL_TASKS = gql`
 
 
 
+
 function RootNavigator() {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
+
+
 
   // delete all projects mutation
   const [deleteAllProjects] = useMutation(DELETE_ALL_PROJECTS);
@@ -83,8 +86,8 @@ function RootNavigator() {
       // remove error
     }
   
-  } 
-
+  }
+  
   // delete all projects function
   const onDeleteAllProjects = () =>{
     deleteAllProjects();
@@ -122,10 +125,26 @@ function RootNavigator() {
       }} />
       <Stack.Screen name="Project" component={ProjectScreen} options={{
         headerBackTitleVisible: false,
+        headerLeft: () =>(
+          <Pressable
+            style={{
+              alignItems: "center",
+              padding: 5,
+              flexDirection: "row",
+              marginRight: "1%"
+              
+            }}
+            onPress={signOut}
+          >
+            <MaterialIcons 
+              name="logout" 
+              size={24} 
+              color={Colors[colorScheme].background}
+            />
+            </Pressable>
+        ),
         headerRight:()=>(
-          // <Pressable onPress={signOut}>
-          //   <MaterialCommunityIcons name="logout" size={24} color={Colors[colorScheme].background} />
-          // </Pressable>
+          
           <Pressable
             style={{
               alignItems: "center",
@@ -155,9 +174,7 @@ function RootNavigator() {
       <Stack.Screen name="TaskList" component={TaskListScreen} options= {({ route }) =>({
         headerBackTitle: "Back",
         headerRight:() =>(
-          // <Pressable onPress={signOut}>
-          //   <MaterialCommunityIcons name="logout" size={24} color={Colors[colorScheme].background} />
-          // </Pressable>
+          
           <Pressable
             style={{
               alignItems: "center",

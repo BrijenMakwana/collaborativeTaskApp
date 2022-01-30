@@ -126,14 +126,14 @@ const SignInScreen = () => {
                 >
                     Sign up if you don't have a account
                 </Text>
-                <Pressable onPress={forgetPassword}>
+                {/* <Pressable onPress={forgetPassword}>
                     <Text style={[styles.extraText,{
                         color: Colors[colorScheme].seperator
                         }]}
                     >
                         Forget password?
                     </Text>
-                </Pressable>
+                </Pressable> */}
             </View>
             
         </View>
